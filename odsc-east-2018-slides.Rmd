@@ -1,0 +1,134 @@
+---
+title: "ODSC 2018"
+author: "Scott Russell"
+date: "August 28, 2018"
+output:
+    ioslides_presentation:
+        widescreen: true
+        self_contained: true
+        logo: images/odsc-logo.png
+    html_document:
+        number_sections: true
+        toc: true
+        toc_float:
+            collapsed: true
+            smooth_scroll: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE, fig.align = 'center')
+```
+
+## ODSC East 2018
+_Open Data Science Conference East_  
+_May 1-4, 2018_  
+_Boston, MA_
+
+Scott Russell  
+Senior DevOps Engineer  
+Thermo Fisher Scientific
+
+## Overview
+
+# R Training Sessions
+- Machine Learning in R
+- RMarkdown & Shiny
+
+## Machine Learning in R
+
+Tuesday, May 1, 2018  
+Jared Lander  
+@jaredlander  
+jaredlander.com  
+github.com/jaredlander
+
+## RMarkdown & Shiny
+
+Wednesday, May 2, 2018  
+Jared Lander  
+@jaredlander  
+jaredlander.com  
+github.com/jaredlander
+
+# Keynotes
+
+Thursday, May 3, 2018  
+Hosted by Katherine Gorman of (Talking Machines)[] podcast
+
+## Engineering the Future of AI for Businesses | Dr. Ruchir Puri, Architect at IBM Watson
+
+- Enterprise AI is not about classifying cats versus dogs images
+- Enterprise AI has very narrow, deep domains of problems to answer
+- Key problems are in machine teaching and learning with small data, not big
+- Requires knowledge of the enterprise to pose right questions that can't be answered by consumer AI applications
+
+## Building a Data Science Company | Dr. Drew Conway, CEO of Alluvium & Co-Founder of Data Kind
+
+- Reaction to years of data scientist unicorns hype
+- Discussion of interview process at Alluvium
+    - Pre-interview
+        - Specific job requirements
+        - Take-home exercise of a problem relevant to organization
+    - Interviews
+        - Code review
+        - Project planning & discovery
+        - Company culture fit
+    - Post-interview: Consensus hire or no-hire
+
+## WMDs and Solutions | Dr. Catherine O'Neil, Author of _Weapons of Math Destruction_
+
+- Mathematical authority in data science obscures model subjectivity
+- WMDs are __widespread__, __mysterious__, and __destructive__
+    - Value-added model for teacher evaluation
+    - Personality test screens for mental illness
+- Models are defined by their (good or bad) data
+    - Hiring algorithm in a company culture of sexual harassment and bias excludes women applicants as not likely successful
+    - Predictive policing uses historical arrests (not crime) data, targets heavily policed areas
+- Hippocratic oath for data science
+    - Have someone's legal, human, or constitutional rights been violated?
+
+# Workshops & Talks | Thursday-Friday, May 3-4, 2018
+ 
+## R Packages as Collaboration Tools | Stephanie Kirmer, Uptake  
+github.com/skirmer
+
+## Keras for R | Dr. Douglas Ashton, Mango Solutions
+
+## Applying Deep Learning to Article Embedding for Fake News Evaluation | Dr. Michael Tamir, Uber Data Science
+fakerfact.org
+
+### Problem: How to know whether something being communicated is true
+- Need to validate knowledge to get to the truth, not easily detected
+- Fake news is emotionally manipulative
+
+### Solution: Detect when an article's goal is to be emotionally manipulative
+- Look only at content, not metadata
+- Apply `word2vec` (n-gram ANN classifier) transfer learning
+    - `king - man + woman = queen`
+    - `england - london + paris = france`
+
+## The Past, Present, and Future of Automated Machine Learning | Dr. Randy Olson, Life Epigenetics  
+randalolson.com  
+
+- Much of the current machine learning pipeline is manual
+    - Cleaning
+    - Selection
+    - Optimization
+- AutoML seeks to automate those manual processes
+- Range of tools available in their approach and scope to applying AutoML
+- AutoML is only part of the future of meta-learning
+    - How to enable machines to learn how to learn optimally
+
+## Training and Serving TensorFlow Models at Scale with Kubernetes | Sertac Ozercan, Microsoft
+
+## How to Go from Data Science to Data Operations | Gil Benghiat, DataKitchen
+
+## Deploying your AI/ML Investments | Jon Peck, Algorithmia
+
+## From Numbers to Narrative: Data Storytelling | Isaac Reyes, DataSeer
+
+## Challenges and Opportunities in Applying Machine Learning | Dr. Alex Jaimes, DigitalOcean
+
+## Visualization throughout the Data Science Workflow: Why It's Useful and How Not to Lie | Dr. Lindsay Brin, T4G Limited
+
+

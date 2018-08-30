@@ -1,0 +1,64 @@
+---
+title: "Building a Data Science Company"
+author: "Scott Russell"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+Dr. Drew Conway  
+CEO of Alluvium  
+Co-Founder of DataKind
+
+- Reaction to years of data scientist unicorns hype
+- Discussion of interview process at Alluvium
+    - Pre-interview
+        - Specific job requirements
+        - Take-home exercise of a problem relevant to organization
+    - Interviews
+        - Code review
+        - Project planning & discovery
+        - Company culture fit
+    - Post-interview: Consensus hire or no-hire
+
+## Notes
+
+_"Always be yourself, unless you can be a unicorn, then always be a unicorn."_
+Reference: The cat riding a fire-breathing unicorn with gun.
+
+- _Invasion of the Body Snatchers_ - _Harvard Business Review_ ("Sexiest Job of 21st Century") 
+    - Who are these people living among us that can do these incredible things?
+- The Jeff Goldblum era of data science (2004-15)
+    - MapReduce -> Hadoop -> data science venn diagram (meant to describe the discipline, not the person) -> Watson -> NYU DS MS offered -> Gartner drops big data from hype review
+- Be Dr. Satler in Jurassic Park - the optimistic skeptic
+    - Don't be like the Fly, be like Vice Admiral Hodo
+
+_"The best data scientists can write backwards on glass."_
+Reference: Stock image of people drawing on glass from wrong side.
+
+- The best possible interview sets up the interviewee to succeed, and the interviewer can witness it
+    - Your interview is a product of your team's culture
+    - Transparency is extremely valuable at every step of the process
+    - Heavily asymmetrical interview processes hurt you 
+        - The process should make both sides feel like they will be successful at the company
+
+- Process at Alluvium
+    - Pre-interview
+        - Write a specific job requirement for what you really need help with
+        - Provide a take-home exercise that directly reflects the work you do (e.g. set up a streaming service for interviewees to code against)
+        - Phone screen out candidates that won't likely be successful with take-home
+        - Send and review take-home as part of your process (e.g. exercise is a github repo, and take-home submission is a PR)
+    - Interview
+        - Meeting 1 - Code review of take-home to understand their thought process
+        - Meeting 2 - Project planning around the take-home prototype solution to a real problem you have
+        - Meeting 3 - Project discovery w/candidate to understand how they would develop this to go to production
+        - Meeting 4 - Company values discussion
+            - Have them rank and discuss importance
+    - Post-interview
+        - if need more information, schedule another call
+        - Consensus no-hire
+            - Why have we gotten to this point? have a post-mortem
+        - Consensus hire

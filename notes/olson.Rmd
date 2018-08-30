@@ -1,0 +1,89 @@
+---
+title: "The Past, Present, and Future of Automated Machine Learning"
+author: "Scott Russell"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Dr. Randy Olson  
+Life Epigenetics  
+randalolson.com  
+
+## Overview
+
+__AutoML__: An approach to automating the process of machine learning in data science, where there is a growing realization of the need in industry.
+
+__Machine Learning__: A field of study that gives computers the ability to learn without being explicitly programmed. _It still requires a lot of manual programming, however._
+
+bit.ly/2HS01Rr
+
+## Manual ML Operations
+- Getting raw data
+- Data Cleaning
+- Feature selection, preprocessing, construction
+    - Defining the vocabulary of the problem set against the data
+- Model selection - what algo do I want to use
+- Parameter optimization - for algo and all preprocessing
+- Model validation - Feedback to all steps of where it went wrong
+
+## AutoML Development
+_AutoML wants to automate the workflow above as much as possible, between raw data and model validation._
+
+- Default params are almost always bad in the different models
+    - _AutoML wants to include parameter optimization in its process_
+- We should never assume that one algorithm will always be the best
+    - _AutoML wants to include model optimization in its process_
+- Surveys show that data collection, cleaning, and organizing take the most time out of data scientist work
+    - _AutoML wants to include some of these steps (as automatable as they can be) in its process_
+
+- Early AutoML focused on parameter optimization
+    - Used mostly grid search or random search
+    - Different options between parameters' importance and value ranges
+- Machine learning pipeline
+    - Starts with a copy of a dataset, feature selection (e.g., PCA), and model selection & optimization
+    - _AutoML wants to apply random search (and other methods) that does for two-dimensional space to the potentially hundreds of dimensions
+
+## AutoML Tooling
+
+- Tooling
+    - Some, such as `TPOT`, just optimize and produce `scikit-learn` code to be used outside of its own tool
+    - Enterprise solutions (e.g., DataRobot) provide a click-thru solution on an AutoML pipeline that can act directly on raw data
+- Open-source
+    - `auto-sklearn` (Python) - Bayesian optimization over a fixed 3-step AutoML pipeline, built on top of `scikit-learn`
+    - Auto-Weka (Java) - built on top of Weka
+    - TPOT (Python) - genetic programming over a configurable AutoML pipeline
+    - h2o.ai AutoML (Java - w/Python, Scala, R APIs) - basic data prep w/grid & random search over ML algos
+    - Devol (Python) deep learning architecture search via genetic programming
+- AutoMLaaS
+    - DataRobot
+    - h20.ai driverless AI
+    - Google AutoML - deep learning architecture search for image recognition (soon to expand)
+
+## AutoML in the Future
+
+- AutoML will also handle most of the data cleaning processs
+    - Some are more easily automatable (e.g., imputation, dummy vars creation)
+    - Unstructured -> tabular format
+    - Capture & automate human approaches 
+        - All the nuanced steps of data cleaning that aren't simply a fxn call piped onto the data
+- AutoML will vastly improve deep learning
+    - Automated DNN architecture design
+    - Automated preprocessing of data prior to modeling
+- AutoML will scale to large datasets
+    - Slow on big data currently
+    - Spark & TF will help bring AutoML to scale
+- AutoML will become human-competitive
+- AutoML will transform practice of data science
+    - Less focus on specific model/workflow selection
+    - More focus on questions thinking, collecting & curating the right data
+- AutoML will become more productized & personalized
+    - Think about AutoML on your phone that is learning against your personal data
+    - "Siri set an alram for the best time for me to wake up"
+- AutoML is only a small part of a greater meta-learning movement
+    - Computer programming is focused on automating rote tasks
+    - Machine learning is focused on automating the automation of rote tasks
+    - Meta-learning is focused on automating the automation of automation
+        - Enabling the machine to learn how to learn in the best way possible

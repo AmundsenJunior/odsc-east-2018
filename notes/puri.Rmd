@@ -1,0 +1,31 @@
+---
+title: "Building a Data Science Company"
+author: "Scott Russell"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+Dr. Ruchir Puri  
+Architect at IBM Watson
+
+- Enterprise AI is not about classifying cats versus dogs images
+- Enterprise AI has very narrow, deep domains of problems to answer
+- Key problems are in machine teaching and learning with small data, not big
+- Requires knowledge of the enterprise to pose right questions that can't be answered by consumer AI applications
+
+## Notes
+
+- Journey from consumer AI to enterprise AI
+- Enterprise AI is not about labeling images/captioning images (Microsoft coco captioning challenge)
+- Crowdsourced solving (e.g. imagenet) are not enterprise AI-compatible
+    - Enterprise AI have very narrow deep domains of problems to answer
+- Enterprise AI: machine teaching and learning with small data
+    - Show a baby one picture of a cat multiple times (not hundreds of different cat pictures), til one day they can identify any cat
+- Knowledge & language of the enterprise
+    - Is not a cats v dogs problem
+    - It's about how do you read millions/trillions of pdfs (pixelated images of text/table/formula/image data) and get ai to tap into that
+- Current methods can't reason without large sets of carefully-labeled data

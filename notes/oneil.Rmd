@@ -1,0 +1,41 @@
+---
+title: "WMDs and Solutions"
+author: "Scott Russell"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+Dr. Catherine O'Neil, Author of _Weapons of Math Destruction_
+
+- Mathematical authority in data science obscures model subjectivity
+- WMDs are __widespread__, __mysterious__, and __destructive__
+    - Value-added model for teacher evaluation
+    - Personality test screens for mental illness
+- Models are defined by their (good or bad) data
+    - Hiring algorithm in a company culture of sexual harassment and bias excludes women applicants as not likely successful
+    - Predictive policing uses historical arrests (not crime) data, targets heavily policed areas
+- Hippocratic oath for data science
+    - Have someone's legal, human, or constitutional rights been violated?
+
+## Notes
+
+- Data scientists use mathematical authority to shield the subjectivity of their models
+- Power as data scientists to choose the definition of success
+
+__WMDs__ - _Widespread, Mysterious, Destructive_
+
+- Teacher value-added model is destructive
+- Specific algorithm for personality test that screens mental illness used generally excludes whole sub-populations from jobs
+- An algorithm uses past experiences/history to define a model for success in the future
+    - Suppose Fox News wanted a ML hiring algorithm, when the culture is one of sexual harassment and biased
+    - Women applicants would be excluded as not likely to be successful
+- Predictive policing is biased, by past crimes (data is actually arrests) determining where future crimes are likely to be found
+    - Predictive policing is just predicting the police
+- Take a Hippocratic oath for data science: consider whether someone's legal, human, or constitutional rights have been violated
+- Democracy thrives on inefficiency, on everyone knowing about everyone
+    - Not being targeted by efficient unfair and exploitative methods of voter suppression on Facebook
+- Need a data science bill of rights, an FDA for algorithms

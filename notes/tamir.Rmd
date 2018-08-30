@@ -1,0 +1,45 @@
+---
+title: "Applying Deep Learning to Article Embedding for Fake News Evaluation"
+author: "Scott Russell"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Dr. Michael Tamir  
+Uber Data Science
+
+## Overview
+
+1. The fake news problem & solving the right problem
+2. Solving the problem
+  1. Deep learning representation: latest techniques
+  2. How it works: applying the algorithm
+3. The algorithm in action
+
+fakerfact.org
+
+## Fake News Problem
+- I want to know what's being communicated is true
+- The quicker we can share and verify/validate knowledge, the quicker we get to the truth
+- By greasing the wheels of information sharing, you also grease the wheels of misinformation sharing
+
+- Can't detect truth easily, and blocking fake news can amount to censorship
+    - Instead, look for presence of "Increased emotional content negatively impacts cognitive function"
+    - Mary poppins: "Practically perfect people never permit sentiment to muddle their thinking."
+    - Emotional content is manipulative, and has been exploited by actors
+
+- Solving 'fake news' means
+    - Enable readers to deterct when the article's goal is to be emotionally manipulative
+    - Enable cognitive engagement, alert and prevent manipulated emotional reaction
+
+## Solving the problem
+- Algorithm does not look at URL/Source metadata
+- `word2vec`: algorithm (n-gram ANN classifier) - transfer learning trick to put similar words in a geometry space to set relationships
+    - `king - man + woman = queen`
+    - `england - london + paris = france`
+    - `microsoft - nadella + zuckerberg = facebook`
+
+___Notes ended here, as the deep technical dive into the solution wasn't absorbable.___
