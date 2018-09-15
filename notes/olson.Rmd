@@ -1,6 +1,6 @@
 ---
 title: "The Past, Present, and Future of Automated Machine Learning"
-author: "Scott Russell"
+author: "Dr. Randy Olson"
 output: html_document
 ---
 
@@ -8,19 +8,32 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Dr. Randy Olson  
-Life Epigenetics  
-randalolson.com  
-
 ## Overview
 
-__AutoML__: An approach to automating the process of machine learning in data science, where there is a growing realization of the need in industry.
+<div class="row">
+
+<div class="col-md-6">
+Dr. Randy Olson  
+[Life Epigenetics](https://lifeegx.com/)  
+@[randal_olson](https://twitter.com/randal_olson)  
+[Website](http://www.randalolson.com)  
+[Talk notes](http://bit.ly/2HS01Rr)  
+</div>
+
+<div class="col-md-6">
+![](images/resized/olson_150.jpg)  
+</div>
+
+</div>
+
+***
 
 __Machine Learning__: A field of study that gives computers the ability to learn without being explicitly programmed. _It still requires a lot of manual programming, however._
 
-bit.ly/2HS01Rr
+__AutoML__: An approach to automating the process of machine learning in data science, where there is a growing realization of the need in industry.
 
 ## Manual ML Operations
+
 - Getting raw data
 - Data Cleaning
 - Feature selection, preprocessing, construction
@@ -30,6 +43,7 @@ bit.ly/2HS01Rr
 - Model validation - Feedback to all steps of where it went wrong
 
 ## AutoML Development
+
 _AutoML wants to automate the workflow above as much as possible, between raw data and model validation._
 
 - Default params are almost always bad in the different models

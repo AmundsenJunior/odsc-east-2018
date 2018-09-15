@@ -1,0 +1,43 @@
+---
+title: "Deploying your AI/ML Investments"
+author: "Jon Peck"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+<div class="row">
+
+<div class="col-md-6">
+Jon Peck  
+[Algorithmia](https://algorithmia.com)  
+@[peckjon](https://twitter.com/peckjon)  
+</div>
+
+<div class="col-md-6">
+![](images/resized/peck_150.jpg)  
+</div>
+
+</div>
+
+***
+
+"Tensorflow is open source, scaling it is not."
+
+- Model development is difficult to scale.
+- An operating system for AI needs to provide:
+    - Interoperability
+    - Accessability
+    - Discoverabiilty
+- The two phases of AI:
+    - Training (static load)
+    - Inference (elastic load)
+- A deployed, trained model is best handled in Docker running on Kubernetes with a REST API in front of it
+- Use a combination of microservices & serverless computing to handle ML Hosting
+- Algorithmia can run on-prem in private enterprise clusters
+    - Go to algorithmia.com and use code `ODSC18` for $50 credit
+

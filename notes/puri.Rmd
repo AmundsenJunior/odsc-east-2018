@@ -1,6 +1,6 @@
 ---
 title: "Building a Data Science Company"
-author: "Scott Russell"
+author: "Dr. Ruchir Puri"
 output: html_document
 ---
 
@@ -9,8 +9,22 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Overview
+
+<div class="row">
+
+<div class="col-md-6">
 Dr. Ruchir Puri  
-Architect at IBM Watson
+Architect at [IBM Watson](https://www.ibm.com/watson/)  
+@[ruchir_puri](https://twitter.com/ruchir_puri)
+</div>
+
+<div class="col-md-6">
+![](images/resized/puri_150.jpg)
+</div>
+
+</div>
+
+***
 
 - Enterprise AI is not about classifying cats versus dogs images
 - Enterprise AI has very narrow, deep domains of problems to answer

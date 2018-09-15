@@ -6,13 +6,7 @@ output:
     ioslides_presentation:
         widescreen: true
         self_contained: true
-        logo: images/odsc-logo.png
-    html_document:
-        number_sections: true
-        toc: true
-        toc_float:
-            collapsed: true
-            smooth_scroll: true
+        logo: images/resized/odsc-logo.png
 ---
 
 ```{r setup, include=FALSE}
@@ -29,6 +23,10 @@ Senior DevOps Engineer
 Thermo Fisher Scientific
 
 ## Overview
+
+- R Training Sessions
+- Keynotes
+- Workshops & Talks
 
 # R Training Sessions
 - Machine Learning in R
@@ -53,7 +51,7 @@ github.com/jaredlander
 # Keynotes
 
 Thursday, May 3, 2018  
-Hosted by Katherine Gorman of (Talking Machines)[] podcast
+Hosted by Katherine Gorman of Talking Machines podcast
 
 ## Engineering the Future of AI for Businesses | Dr. Ruchir Puri, Architect at IBM Watson
 
@@ -61,6 +59,8 @@ Hosted by Katherine Gorman of (Talking Machines)[] podcast
 - Enterprise AI has very narrow, deep domains of problems to answer
 - Key problems are in machine teaching and learning with small data, not big
 - Requires knowledge of the enterprise to pose right questions that can't be answered by consumer AI applications
+
+_[Session Notes](./puri.Rmd)_
 
 ## Building a Data Science Company | Dr. Drew Conway, CEO of Alluvium & Co-Founder of Data Kind
 
@@ -75,6 +75,8 @@ Hosted by Katherine Gorman of (Talking Machines)[] podcast
         - Company culture fit
     - Post-interview: Consensus hire or no-hire
 
+_[Session Notes](./conway.Rmd)_
+
 ## WMDs and Solutions | Dr. Catherine O'Neil, Author of _Weapons of Math Destruction_
 
 - Mathematical authority in data science obscures model subjectivity
@@ -87,28 +89,34 @@ Hosted by Katherine Gorman of (Talking Machines)[] podcast
 - Hippocratic oath for data science
     - Have someone's legal, human, or constitutional rights been violated?
 
+_[Session Notes](./oneil.Rmd)_
+
 # Workshops & Talks | Thursday-Friday, May 3-4, 2018
  
 ## R Packages as Collaboration Tools | Stephanie Kirmer, Uptake  
-github.com/skirmer
 
 ## Keras for R | Dr. Douglas Ashton, Mango Solutions
 
+
 ## Applying Deep Learning to Article Embedding for Fake News Evaluation | Dr. Michael Tamir, Uber Data Science
+
 fakerfact.org
 
 ### Problem: How to know whether something being communicated is true
+
 - Need to validate knowledge to get to the truth, not easily detected
 - Fake news is emotionally manipulative
 
 ### Solution: Detect when an article's goal is to be emotionally manipulative
+
 - Look only at content, not metadata
 - Apply `word2vec` (n-gram ANN classifier) transfer learning
     - `king - man + woman = queen`
     - `england - london + paris = france`
 
+_[Session Notes](./tamir.Rmd)_
+
 ## The Past, Present, and Future of Automated Machine Learning | Dr. Randy Olson, Life Epigenetics  
-randalolson.com  
 
 - Much of the current machine learning pipeline is manual
     - Cleaning
@@ -119,16 +127,76 @@ randalolson.com
 - AutoML is only part of the future of meta-learning
     - How to enable machines to learn how to learn optimally
 
+_[Session Notes](./olson.Rmd)_
+
 ## Training and Serving TensorFlow Models at Scale with Kubernetes | Sertac Ozercan, Microsoft
+
+- Take advantage of Kubernetes scaling and scheduling to train TensorFlow models
+- Demo of using kubeflow on Azure Kubernetes Service
+- Shows kubeflow as a good system for developing and training ML/DL models
 
 ## How to Go from Data Science to Data Operations | Gil Benghiat, DataKitchen
 
+- DataOps combines agile development, devops, and statistical process controls and applies them to data analytics
+- ML code is the smallest part of your code and infrastructure for running a data science/analytics/ML pipeline
+    - Business need definition
+    - Data preparation
+    - Feature extraction
+    - Build model
+    - Evaluate model
+    - Deploy model
+    - Monitor model
+- Provides seven steps to DataOps
+    1. Orchestrate two journeys
+    1. Add tests
+    1. Use a version control system
+    1. Branch and merge
+    1. Use multiple environments
+    1. Reuse & containerize
+    1. Parameterize your processing
+
+_[Session Notes](./benghiat.Rmd)_
+
 ## Deploying your AI/ML Investments | Jon Peck, Algorithmia
+
+- "Tensorflow is open source, scaling it is not."
+- Use Algorithmia
+
+_[Session Notes](./peck.Rmd)_
 
 ## From Numbers to Narrative: Data Storytelling | Isaac Reyes, DataSeer
 
+- A big gap in data science is not in the technical tools available, but in the ability to package the story for stakeholders that they can understand and act upon.
+- Keys to Data Storytelling
+    - Audience
+    - Data
+    - Visuals
+    - Narrative
+- Gestalt Laws of Visual Perception
+    - Proximity
+    - Similarity
+    - Enclosure
+- "Above all else, show the data." - Edward Tufte
+
+_[Session Notes](./reyes.Rmd)_
+
 ## Challenges and Opportunities in Applying Machine Learning | Dr. Alex Jaimes, DigitalOcean
+
+1. Knowledge gap
+1. Organizational structure
+1. Business alignment
+1. Data strategy
+1. Computing infra
+1. Data quality
+1. ML v DL, GPU v CPU
+
+_[Session Notes](./jaimes.Rmd)_
 
 ## Visualization throughout the Data Science Workflow: Why It's Useful and How Not to Lie | Dr. Lindsay Brin, T4G Limited
 
+- What are the critical applications of data visualization throughout the data science workflow?
+- When is specifically data visualization a good choice?
+- How not to lie with data visualization
+
+_[Session Notes](./brin.Rmd)_
 

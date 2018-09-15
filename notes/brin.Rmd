@@ -1,0 +1,77 @@
+---
+title: "Visualization throughout the Data Science Workflow: Why It's Useful and How Not to Lie"
+author: "Dr. Lindsay Brin"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+<div class="row">
+
+<div class="col-md-6">
+Dr. Lindsay Brin  
+[T4G Limited](https://www.t4g.com/)  
+[Blog](http://www.t4g.com/insights)  
+</div>
+
+<div class="col-md-6">
+![](images/resized/brin_150.jpg)
+</div>
+
+</div>
+
+***
+
+- What are the critical applications of data visualization throughout the data science workflow?
+- When is specifically data visualization a good choice?
+- How not to lie with data visualization
+
+## Key applications in the data science workflow
+- Data science process
+    - The purpose of visualization here is to know how to move thru process and use the tools
+    - Apply statistics appropriately
+        - Look at data to know whether lm is actually appropriate to apply to the data
+- Choosing model parameters 
+    - Heatmap of parameter grid search might show that range of parameters should be changed
+- data science insight - be able to present info/patterns visible and interpretable to analysts
+- data science communication - making wide audience accessible, provide context with outside data sources
+
+## When is data vis a good choise (tufte: drive-by guidance)
+
+- Data visualization is communication.
+- Is your purpose to communicate individual numbers or a pattern?
+- When looking at one or two numbers - data visualization is unnecessary
+- If you want to comm specific values, Showing viz obscures via showing only trends
+
+## The imporance of integrity (how not to lie)
+
+- In its best form, data viz enhances understanding
+- In its worst form, data viz can obscure the truth or even lie
+- How plot parameters influence interpretation
+    - Axis scale range affects interpretability
+    - Consider that when doing EDA and accepting default settings in your tools
+    - No reason to use line graphs for categorical variables, which may include a non-continuous range of numerical values
+- How choice of color influences interpretation
+    - How we perceive color and color relationships
+    - Integral to how perceive patterns and interpret them
+    - Hue
+        - Color wheel
+    - Value
+        - Lightness or darkness - difference from black to white
+    - Intensity
+        - Saturation
+        - Difference from gray
+    - Color indicates categories
+        - Hue similarity can imply closeness, even when they are not
+    - Color representing numerical value
+        - Use color gradients carefully that doesn't obscure variance or most data existing in a small value range versus outliers
+
+## Conclusion
+
+1. Would visualization help you understand/explore your data or proecess?
+1. How do the parameters of this visualization drive its interpretation?
+

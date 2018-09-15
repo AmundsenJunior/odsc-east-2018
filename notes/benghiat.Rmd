@@ -1,0 +1,88 @@
+---
+title: "How to Go from Data Science to Data Operations"
+author: "Dr. Gil Benghiat"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+<div class="row">
+
+<div class="col-md-6">
+Dr. Gil Benghiat  
+[DataKitchen](https://www.datakitchen.io/)  
+@[benghiat](https://twitter.com/benghiat)  
+</div>
+
+<div class="col-md-6">
+![](images/resized/benghiat_150.jpg)
+</div>
+
+</div>
+
+***
+
+- There is a lot of hidden tech debt in machine learning systems
+- ML code is the smallest part of your code and infrastructure for running a data science/analytics/ML pipeline
+    - Business need definition
+    - Data preparation
+    - Feature extraction
+    - Build model
+    - Evaluate model
+    - Deploy model
+    - Monitor model
+- DataOps focuses on all steps except for the build model step
+- Keep in mind that there is iteration, testing, improvements via feedback loops at every step
+
+## What is DataOps?
+
+  - Combines agile development, devops, and statistical process controls and applies them to data analytics
+  - The agile mindset places a focus on value (The Agile Manifesto)
+      - Collaborate with customers
+      - Respond to change
+      - Measure progress by working analytics
+      - Release frequently, working on most important items first
+      - Get feedback often
+      - Adjust behavior all the time to improve process
+
+## Seven Steps to DataOps
+
+1. Orchestrate two journeys
+    1. _Value Pipeline_: Orchestrate data to customer value as a pipeline
+        - Access (Python)
+        - Transform (SQL, ETL)
+        - Model (R)
+        - Visualize (Tableau workbook)
+        - Report (Tableau Online)
+    1. _Innovation Pipeline_: Speed ideas to production
+        - Idea
+        - Development
+        - Production 
+    Bring two pipelines together
+        - By using diverse tools in a diverse teams to get to diverse customers
+        - Assurance of high quality throughout process
+1. Add tests
+    - Monitor quality by testing at every step
+        - Data quality monitoring
+            - Are data inputs frree from issues?
+            - Is your business logic still correct?
+            - Are your outputs consistent?
+    - Code quality monitoring - code/development testing
+    - Tests don't have to be pass/fail only - error, warning, info
+    - Try to put at least one test in every step
+1. Use a version control system
+1. Branch and merge
+1. Use multiple environments
+1. Reuse & containerize
+    - Reuse both code & data
+        - Code: Develop libraries that are used across models & pipelines
+        - Data: Can the data output of one pipeline be used as input of another?
+    - Containerize: Manage an environment (as a set of containers) for each model.
+1. Parameterize your processing
+    - Think of your pipeline like a big function
+    - Use params to vary inputs, outputs, steps executed in the workflow
+    - With these parameters and version control of data & code, you can make pipelines (and hopefully results) repeatable

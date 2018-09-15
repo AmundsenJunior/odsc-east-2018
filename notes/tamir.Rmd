@@ -1,6 +1,6 @@
 ---
 title: "Applying Deep Learning to Article Embedding for Fake News Evaluation"
-author: "Scott Russell"
+author: "Dr. Michael Tamir"
 output: html_document
 ---
 
@@ -8,10 +8,23 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Dr. Michael Tamir  
-Uber Data Science
-
 ## Overview
+
+<div class="row">
+
+<div class="col-md-6">
+Dr. Michael Tamir  
+[Uber](https://www.uber.com/)  
+@[miketamir](https://twitter.com/miketamir)  
+</div>
+
+<div class="col-md-6">
+![](images/resized/tamir_150.jpg)
+</div>
+
+</div>
+
+***
 
 1. The fake news problem & solving the right problem
 2. Solving the problem

@@ -1,6 +1,6 @@
 ---
 title: "Building a Data Science Company"
-author: "Scott Russell"
+author: "Dr. Drew Conway"
 output: html_document
 ---
 
@@ -9,9 +9,23 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Overview
+
+<div class="row">
+
+<div class="col-md-6">
 Dr. Drew Conway  
-CEO of Alluvium  
-Co-Founder of DataKind
+CEO of [Alluvium](https://alluvium.io/)  
+Co-Founder of [DataKind](https://www.datakind.org/)  
+@[drewconway](https://twitter.com/drewconway)  
+</div>
+
+<div class="col-md-6">
+![](images/resized/conway_150.jpg)  
+</div>
+
+</div>
+
+*** 
 
 - Reaction to years of data scientist unicorns hype
 - Discussion of interview process at Alluvium
@@ -27,7 +41,7 @@ Co-Founder of DataKind
 ## Notes
 
 _"Always be yourself, unless you can be a unicorn, then always be a unicorn."_
-Reference: The cat riding a fire-breathing unicorn with gun.
+Reference image: The cat riding a fire-breathing unicorn with gun.
 
 - _Invasion of the Body Snatchers_ - _Harvard Business Review_ ("Sexiest Job of 21st Century") 
     - Who are these people living among us that can do these incredible things?
@@ -37,7 +51,7 @@ Reference: The cat riding a fire-breathing unicorn with gun.
     - Don't be like the Fly, be like Vice Admiral Hodo
 
 _"The best data scientists can write backwards on glass."_
-Reference: Stock image of people drawing on glass from wrong side.
+Reference image: People drawing on glass from wrong side.
 
 - The best possible interview sets up the interviewee to succeed, and the interviewer can witness it
     - Your interview is a product of your team's culture

@@ -1,0 +1,82 @@
+Machine Learning in R
+Jared Lander
+jaredlander.com/talks
+github.com/jaredlander/odsceast2018
+github.com/jaredlander/learningr.git
+
+
+Data Prep
+
+R
+$ cd ~/dev/r
+$ mkdir odsc-2018; cd odsc-2018
+$ git clone git@github.com:jaredlander/learningr.git
+
+https://data.world/landeranalytics/training
+Download zip
+$ mv ~/Downloads/landeranalytics-training.zip ~/dev/r/odsc-2018
+$ unzip landeranalytics-training.zip
+
+R Studio
+Install tidyverse dependencies (https://stackoverflow.com/questions/45719942/how-to-install-tidyverse-on-ubuntu-16-04-and-17-04?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+$ sudo apt install -y r-cran-curl r-cran-openssl r-cran-xml2
+
+packages <- c('caret', 'coefplot','DBI', 'dbplyr', 'doParallel', 'foreach', 
+              'ggthemes', 'glmnet', 'jsonlite', 'leaflet', 'odbc', 
+              'recipes', 'rmarkdown', 'rprojroot', 'RSQLite', 'rvest', 
+              'tidyverse', 'threejs', 'usethis', 'UsingR', 'xgboost', 'XML', 
+              'xml2')
+install.packages(packages)
+
+Open the LearningR RStudio Project
+RStudio > Files > /home/srussell/dev/r/odsc-2018/learningr/LearningR.Rproj
+
+Move data.world files into learningr/data directory
+$ mv ~/dev/r/odsc-2018/landeranalytics-training ~/dev/r/odsc-2018/learningr/data
+
+
+
+Supervised Learning
+Y = f(X)
+Y is response, a function of X, your predictors
+
+Y is a column of responses
+X is a matrix of predictors
+
+Machine learning - fit the model on a large subset of training data, and test the model against the remainder of data, your test data
+
+Process
+training phase = training data & training responses > create a model
+generalization phase = test data > prediction, test responses > evaluation
+
+
+github.com/jaredlander/odsceast2018
+
+jaredlander.com/talks
+Lasso Regression for Everyone
+
+Y[] = X[][] * B[] + e[]
+Solution
+B = (X^T * X)^-1 * (X^T * Y)
+
+Curse of dimensionality 
+as dimensions are added (e.g. cube into n-dim hypercube), the solution space gets exponentially harder to model
+as variables are added to break up observations, the number of observations in each combination of variables gets smaller
+as more columns are added, modeling requires more data
+
+
+Solutions to dimensionality
+Shrinkage (bayesian), Regularization (machine learning)
+
+Elastic Net - automated variable selection
+the math applies a penalty term that shrinks some of the variable coefficients to zero
+the penalty term is a combination of the ridge and lasso regressions
+
+
+nyhackr.org - ny r and stats prog meetup
+
+Code Worksheets
+
+formalInterface.R
+glmnet.R
+xgboost.R

@@ -1,6 +1,6 @@
 ---
 title: "WMDs and Solutions"
-author: "Scott Russell"
+author: "Dr. Catherine O'Neil"
 output: html_document
 ---
 
@@ -9,7 +9,23 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Overview
-Dr. Catherine O'Neil, Author of _Weapons of Math Destruction_
+
+<div class="row">
+
+<div class="col-md-6">
+Dr. Catherine O'Neil  
+Author of _[Weapons of Math Destruction](https://weaponsofmathdestructionbook.com/)_  
+@[mathbabedotorg](https://twitter.com/mathbabedotorg)  
+[Website](https://mathbabe.org)  
+</div>
+
+<div class="col-md-6">
+![](images/resized/oneil_150.jpg)
+</div>
+
+</div>
+
+***
 
 - Mathematical authority in data science obscures model subjectivity
 - WMDs are __widespread__, __mysterious__, and __destructive__

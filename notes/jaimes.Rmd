@@ -1,0 +1,96 @@
+---
+title: "Challenges and Opportunities in Applying Machine Learning"
+author: "Dr. Alejandro Jaimes"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+<div class="row">
+
+<div class="col-md-6">
+Dr Alejandro (Alex) Jaimes  
+[DigitalOcean](https://www.digitalocean.com/)  
+@[tinybigdata](https://twitter.com/tinybigdata)  
+</div>
+
+<div class="col-md-6">
+![](images/resized/jaimes_150.jpg)
+</div>
+
+</div>
+
+***
+
+- Where can ML have the biggest impact
+- How to avoid common pitfalls
+- Improvements in process vs just working on algorithmss
+    - Often issues come from process mistakes, not in the models themselves
+- Data collection, labeling, & quality
+- Metrics, objective functions, overfitting, cost of different types of errors
+
+## Challenges
+
+1. Knowledge gap - more people learning about it outside the domain, but not knowledgeable learning
+1. Organizational structure - where does data science (DS) sit in R&D of organization
+1. Business alignment - aligning DS work with business metrics by importance
+1. Data strategy
+1. Computing infra
+1. Data quality
+1. ML v DL, GPU v CPU
+
+### Knowledge Gap
+
+- ML is either magic or useless to the ignorant
+
+### Organizational Structure
+
+- What's important for the business, creating value, and how does data science team in an org help achieve that
+- Does business leadership think that ML is part of creating that value for the org
+
+### Business Alignment
+
+- Identify problems that matter, being sure to drill down on context of stated problems from mgrs to discover underlying problems
+- Get alignment on metrics - what measurements are the business worried about, and are those the right metrics, versus finding best way to answer the key underlying questions
+
+### Data strategy
+
+- There's lots of data, but who knows where it is
+- Strategy comprises infrastructure needs, policies (retention & security), engineering support (resource needs to make data gathering possible across org)
+
+### Infrastructure
+
+- Cloud - IaaS (AWS), PaaS (service apis), SaaS (GoogleDocs, Office365)
+- ML as a Service
+    - Build in-house what really brings value for your resources and questions
+    - Consider out-of-the-box solutions for well-developed solutions to parts of your problems (e.g., image labeling, speech recognition)
+    
+### Data Quality
+
+- Pay attention to the data that's not being collected (what's missing)
+- Labeling
+    - Definitions
+    - Subjectivity
+    - Scalability of the process
+    - External data sources
+
+### ML v DL
+
+- DNN automatically builds features (determined by the network), but users define the hyperparameters
+- In Training versus Inference phases, requirements change (GPU needed only in training?)
+- ML
+    - Useful with smaller datasets
+    - Very specific domain knowledge required for the data?
+    - Pre-existing features
+    - Interpreability - needing to explain results
+- DL
+    - Needs 10^6+ sized datasets
+    - Consider training time in proportion to usage time (two months of training might be worth it for usage of 1-2 yrs)
+
+## Conclusion
+
+Emphasize the importance of human-centered computing in developing data science.

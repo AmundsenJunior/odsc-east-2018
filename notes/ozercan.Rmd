@@ -1,0 +1,67 @@
+---
+title: "Training and Serving TensorFlow Models at Scale with Kubernetes"
+author: "Sertac Ozercan"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+<div class="row">
+
+<div class="col-md-6">
+Sertac Ozercan  
+[Microsoft Azure](https://azure.microsoft.com/en-us/)  
+@[sozercan](https://twitter.com/sozercan)  
+[Slides](http://aka.ms/kubeflow-labs-slides)  
+[Demos](http://aka.ms/kubeflow-labs-demos)  
+[GitHub repo](https://github.com/azure/kubeflow-labs)  
+</div>
+
+<div clas="col-md-6">
+![](images/resized/ozercan_150.jpg)  
+</div>
+
+</div>
+
+***
+
+Kubernetes provides
+- Massively scalable infra for running TensorFlow (TF) model training in parallel (on GPUs if needed)
+- Cloud-agnostic autoscaling on-demand (whether on GKE or AKS)
+
+Manage TF jobs with Kubeflow
+- Google-developed ML toolkit for Kubernetes
+- Simplified process with Custom Resource Definitions (CRDs)
+- https://github.com/kubeflow/kubeflow
+
+## Demo
+
+Running an AKS TF training job on GPU
+- Need to mount Nvidia drivers as volume
+- Need to assign 1 GPU as resource limit
+
+_(Using ksonnet for templating kubeflow commands (like Helm))_
+
+### JupyterHub comes with kubeflow
+- Use as a multi-user notebook service for sharing & collaborating on models
+- Can upload an ipynb to run on the cluster, with spawning options setting resource limits
+
+### Distributed TF
+  `K8s + cluster autoscaling + kubeflow`
+  Combination provides a clean process & interface for implementing distrbiuted TF.
+
+### Hyper Parameter sweeping
+  enabled more easily on a kubeflow cluster to evaluate across multiple models and see results on one centralized tensorboard instance
+  Demo uses Helm to deploy
+
+## Conclusion
+
+When looking at ML/DL pipelines
+- kubeflow is good for model development & training
+- pachyderm & distributed FS are best for data preparation & versioning
+
+

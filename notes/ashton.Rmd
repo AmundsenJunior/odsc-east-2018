@@ -1,0 +1,95 @@
+---
+title: "Keras for R"
+author: "Dr. Douglas Ashton"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+<div class="row">
+
+<div class="col-md-6">
+Dr. Douglas Ashton  
+[Mango Solutions](https://www.mango-solutions.com/)  
+@[dougashton](https://twitter.com/dougashton)  
+[GitHub repo](https://github.com/mangothecat/keras-workshop)  
+</div>
+
+<div class="col-md-6">
+![Dr. Douglas Ashton](images/resized/ashton_150.jpg)
+</div>
+
+</div>
+
+## Prerequisites
+
+1. We will provide a cloud-base RStudio environment with everything pre-installed and datasets in place. We'll give you a URL and a login on the day and you'll only need a laptop with a web browser and ability to get on wifi.
+2. All of the models we're building will work on a laptop so if you want to follow along on your own machine then please follow the steps below:
+
+Install the following R packages from CRAN in the usual way: "tidyverse", "caret", "keras"
+
+Installing Keras requires Python dependencies:
+$ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+$ sudo apt install -y python-pip python-virtualenv
+
+In an R session install the keras/tensorflow python libraries by running:
+library(keras)
+install_keras()
+
+
+
+
+
+What is deep learning
+
+feataures (inputs) - try to go wide
+transformed features - turn inputs into something more representative and useful to predictive modeling
+algo to munch the features
+target (output)
+
+need to learn how to 1) feature transform and 2) build the algo
+
+DL good for:
+  - unstructured data, where features are learned rather than designed
+    head of kaggle said ML better/winning on structured data
+  - big data - needs lots of data
+  - familiar - trained networks can be used on new problems
+
+Neural Networks
+
+nodes (neurons) & edges
+nodes are built up in horizontal layers, contain values
+edges are weighted, feeding values from one layer to next, usually aggregating in next layer
+input layer -> thru hidden layers (increasingly abstracted) -> to the output layer
+
+Iris Neural Network
+
+4 features: sepal length, sepal width, petal width, petal length
+1 target: species (setosa, versicolo, )
+
+TensorFlow -> turns models/equations into numerical solvers doing the heavy linalg, via transofmration into a graph structure
+  not only for neural networks, general numerical solver
+
+R and TensorFlow
+  tensorflow.rstudio.com
+  reticulate package
+  not much overhead to bring up python when installing TF
+
+Keras
+  keras.rstudio.com
+  higher leval on top of TF, specifically for neural networks
+
+Deep Learning with R (Francois Challet)
+
+
+How it all fits together
+
+We will write against Keras in R
+Keras will turn that into NN math
+TensorFlow receives math from Keras to compute
+
+

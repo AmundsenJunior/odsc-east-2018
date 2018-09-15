@@ -1,0 +1,76 @@
+---
+title: "From Numbers to Narrative: Data Storytelling"
+author: "Isaac Reyes"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+<div class="row">
+
+<div class="col-md-6">
+Isaac Reyes
+[DataSeer](https://dataseer.com/)
+</div>
+
+</div class="col-md-6">
+![](images/resized/reyes_150.jpg)
+</div>
+
+</div>
+
+***
+
+A big gap in data science is not in the technical tools available, but in the ability to package the story for stakeholders that they can understand and act upon.
+
+## Keys to Data Storytelling
+1. Audience
+    - Every story needs a hero, and a data story's hero is the audience
+    - Audience determines what design choices are made
+        - Who they are 
+        - What they need to know
+2. Data
+    - Sourcing, aggregating, and choosing the right metrics for the audience
+    - Metrics shouldn't be complicated; they should be chosen as appropriate for the audience
+3. Visuals
+    - Sometimes a table is the only thing necessary
+    - Sometimes impact metrics are only necessary (big font of stat)
+    - When a chart is needed, choosing the right chart is key
+4. Narrative
+    - Weaving all the elements together with a story
+
+## The gestalt laws of visual perception
+    - _The Law of Proximity_
+        - Closeness helps define similarity or relative connection
+        - This is an instant perception
+    - _The Law of Similarity_
+        - The same color connects items even if not by proximity
+    - _The Law of Enclosure_
+        - Grouping by boundary definitions makes clear what's part of a group
+
+## Ranking of elementary perceptual tasks
+- More accurate to less accurate
+- Position
+    - On a common scale
+    - On on-aligned scales
+- Length
+    - From the same baseline
+    - From different baselines
+- Size
+    - Comparison of different areas
+    - Comparison of different volumes
+
+## Conclusion
+
+In data storytelling - not dashboard analytics visualizations - choose colors that add to the story, and consider that not all data is a main character (gray out background data).
+
+Edward Tufte, godfather of data visualization
+    - "Above all else, show the data."
+    - Importance of the data/ink ratio
+        - Eliminating chart junk and improving the visual design
+
+
