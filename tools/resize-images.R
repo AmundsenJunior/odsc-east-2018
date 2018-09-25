@@ -1,7 +1,20 @@
 # Script to resize image files
 # install.packages('remotes')
 # remotes::install_bioc('EBImage')
-# install.packages('tools')
+#
+# if that doesn't work (linux and/or not yet released changes):
+# install.packages('devtools')
+#
+# fails on no openssl
+# sudo apt install -y libssl-dev
+# devtools::install_github('r-lib/remotes')
+#
+# fails on fftw3.h
+# sudo apt install -y libfftw3-3 libfftw3-dev libtiff5-dev 
+#
+# fails on rcurl
+# sudo apt install -y libcurl4-openssl-dev
+# remotes::install_bioc('EBImage')
 
 library("EBImage")
 library("tools")
