@@ -27,103 +27,135 @@ Stephanie Kirmer
 
 ***
 
-_"it's so easy, you just..."_ is not coming from her - there will be parts of the R package process that will be hard/challenging
+_"it's so easy, you just..."_
 
-problem: data science teams without structured, intentional collaboration leak knowledge and waste resources
-  - code you can't replicate
-  - results you can't replicate
-solution: build your team's culture, infrastructure, and tools so that build, retaining, and sharing knowledge is easy and valued.
-  r packages a re a great tool to help you get there
+- This is not coming from her. There will be parts of the R package process that will be hard and/or challenging.
 
-## Example Package
+#### Problem
+- Data science teams without structured, intentional collaboration leak knowledge and waste resources.  
+    - Code you can't replicate
+    - Results you can't replicate
 
-github.com/uptakeopensource/uptasticsearch - using elasticsearch databases with R
-  was a thorny problem of connecting to and querying elasticsearch to get ES data into an R dataframe
-  instead of creating a set of reusable snippets internally, team built an R pkg open to internal contributions & improvements, then open sourced for more contributions
+#### Solution
+- Build your team's culture, infrastructure, and tools so that build, retaining, and sharing knowledge is easy and valued.  
+    - R packages are a great tool to help you get there.
+
+#### Example Package: [Upstasticsearch](https://github.com/uptakeopensource/uptasticsearch) 
+- Package for connecting to Elasticsearch databases with R
+- Their data science team had a thorny, persistent problem of connecting to and querying Elasticsearch in order to get ES data into an R dataframe.
+- Instead of creating a set of reusable snippets internally, the team built an R package open to internal contributions & improvements, then open sourced for more contributions.
 
 ## Why use R packages?
-  improve quality and reproducibility by using peer-reviewed, validated tools in package form
-    - rewriting code is an opportunity for mistakes
-    - providing a systemic means to saving and sharing reusable code, beyond snippets
-    - you can write the tools that you wish existed for what you need to repeatedly use in your business
-  you can use packages for providing tools to other areas of the business, not just other data scientists
-    - reporting tools for c-suite
-    - visualization template for BI/sales
-    - data etl process for data engrs
-    empower your colleagues to do routine work, and free up data science to do the complex and innovative projects
-      sounds a lot like devops automating routine tasks and requests to elevate work to working on more complex problems
-  packages codify institutional/tribal/personal knowledge
-    - enables new data scientists to spin up and contribute faster
-    - prevent brain drain
-    Community tools increase the stability of your team for the long term
-  move towards a culture of education across your organization
-    develop internal learning
-      working sessions & tech talks
-    increase data science visibility
-      interact w/non-ds colleagues
-      adding value and insights
-    prime ds team to contribute to open source generally
+- Improve quality and reproducibility by using peer-reviewed, validated tools in package form
+    - Rewriting code is an opportunity for mistakes
+    - Providing a systemic means to saving and sharing reusable code, beyond snippets
+    - You can write the tools that you wish existed for what you need to repeatedly use in your business
+- You can use packages for providing tools to other areas of the business, not just other data scientists
+    - Reporting tools for c-suite
+    - Visualization template for BI/sales
+    - Data etl process for data engrs
+- Empower your colleagues to do routine work, and free up data science to do the complex and innovative projects
+    - Sounds a lot like devops automating routine tasks and requests to elevate work to working on more complex problems
+- Packages codify institutional/tribal/personal knowledge
+    - Enables new data scientists to spin up and contribute faster
+    - Prevent brain drain
+- Community tools increase the stability of your team for the long term
+- Move towards a culture of education across your organization
+- Develop internal learning
+    - Working sessions & tech talks
+- Increase data science visibility
+    - Interact w/non-ds colleagues
+    - Adding value and insights
+- Prime ds team to contribute to open source generally
 
-A group of individual data scientists is not necessarily a collaborative team of data scientists
-  need a culture of working together towards same goals and trust to share knowledge before just putting a need for creating R packages on their workload
-Leadership should also encourage and incentivize such efforts to help make them successful in relation to their internal importance
+_"A group of individual data scientists is not necessarily a collaborative team of data scientists."_
 
-Planning
-  explore undocumented resources
-    investigate existing best practices
-    aggregate your institutional knowledge
+- Need a culture of working together towards same goals and trust to share knowledge before just putting a need for creating R packages on their workload
+- Leadership should also encourage and incentivize such efforts to help make them successful in relation to their internal importance
 
-Packages need documentation
- - comment code
- - help docs
- - vignettes
- - package level descriptive documents
- - websites via pkgdown (pkgdown.r-lib.org)
+### Planning
+- Explore undocumented resources
+- Investigate existing best practices
+- Aggregate your institutional knowledge
 
+### Packages need documentation
+- Comment code
+- Help docs
+- Vignettes
+- Package level descriptive documents
+- Websites via pkgdown (pkgdown.r-lib.org)
 
 ## Tutorial - Building a simple R package
 
-github.com/skirmer/odsc2018
+[Presentation notes GitHub repo](https://github.com/skirmer/odsc2018)
+[How-to video](https://www.youtube.com/watch?v=YR3mMBJMgyM)
+[How-to GitHub repo](https://github.com/skirmer/r_packages)
 
-video available with howto link on repo
-github.com/skirmer/r_packages HOWTO on making packages
+#### Package Creation Dependencies
+- `devtools`
+- `roxygen2`
+- `testthat`
+- `pkgdown`
 
-use devtools and roxygen2
+#### Create New Project
+- Create new project > package type
+- Add functions and data you want included
+- Functions get added to the `R/` directory of the project
+- Store data into a `data/` subdirectory
+- In Rstudio R package structure, can insert `roxygen` skeleton for documentation
+- Edit the `DESCRIPTION` file, including license and dependencies
 
-create new project > package type > add functions and data you want included
-  functions get added to the R/ directory of the project
-  store data into a data/ subdirectory
-  in Rstudio R package structure, can insert roxygen skeleton for documentation
-  edit the DESCRIPTION file - including license and dependencies
+#### Documentation
+- Creates `.Rd` files for package documentation
+- From `*.R` files function comments based on `roxygen` skeleton
+- Into the `man/` directory
 
-Documentation
-  devtools::document() - creates .Rd files for package documentation, into the man/ directory
+    ```{r eval=FALSE}
+    devtools::document() 
+    ```
 
-Vignettes
-  devtools::use_vignette("GettingStarted") - nice to have long-form documentation - RMarkdown file, into the vignettes/ directory
+#### Vignettes
+- Nice to have long-form documentation 
+- RMarkdown file into the `vignettes/` directory
 
-Unit Tests
-  into the tests/ directory
-  setup file - use the 'testthat' library, save as testthat.R
-  into the tests/testthat/ directory
-    add the test files
+    ```{r eval=FALSE}
+    devtools::use_vignette("GettingStarted") 
+    ```
 
-Build the package
-  devtools:;build() - creates a tarball file
-  devtools:;build_vignettes()
+#### Unit Tests
+- Use the `testthat` library
+- Into the `tests/` directory
+    - Setup file: save as `testthat.R`
+- Into the `tests/testthat/` directory
+    - Add the `test-*.R` files
 
-Install the package
-  devtools::install()
+#### Build Package
+- Two steps to build the package and build vignettes separately.
 
-Review docs in RStudio of installed package
+    ```{r eval=FALSE}
+    devtools::build() # creates a tarball file
+    devtools::build_vignettes()
+    ```
 
-Build the doc site with pkgdown
-  pkgdown::build_site()
+#### Install Package
+- This installs the package into local RStudio environment, making it accessible for loading into other projects.
 
-Varsity-level steps for R packages in organizations
-  CI for building and testing packages with multiple contributors
-  Internal CRAN repo
-    so that install.packages() can be
-    cran.r-project.org/doc/manuals/R-admin.html#setting-up-an-internal-repository
+    ```{r eval=FALSE}
+    devtools::install()
+    ```
 
+#### Build the doc site with pkgdown
+- Generate a static HTML site of package documentation.
+
+    ```{r eval=FALSE}
+    pkgdown::build_site()
+    ```
+
+## Conclusion
+
+- Varsity-level steps for R packages in organizations
+    - CI for building and testing packages with multiple contributors
+    - Internal CRAN repo
+        - So that install.packages() can be
+        - [CRAN Project Reference](http://cran.r-project.org/doc/manuals/R-admin.html#setting-up-an-internal-repository)
 
