@@ -27,69 +27,234 @@ Dr. Douglas Ashton
 
 ## Prerequisites
 
-1. We will provide a cloud-base RStudio environment with everything pre-installed and datasets in place. We'll give you a URL and a login on the day and you'll only need a laptop with a web browser and ability to get on wifi.
-2. All of the models we're building will work on a laptop so if you want to follow along on your own machine then please follow the steps below:
-
-Install the following R packages from CRAN in the usual way: "tidyverse", "caret", "keras"
-
-Installing Keras requires Python dependencies:
+### Installing Keras requires Python dependencies:
+```
 $ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 $ sudo apt install -y python-pip python-virtualenv
+```
 
-In an R session install the keras/tensorflow python libraries by running:
+### Installing Keras and package dependencies
+```{r eval=FALSE}
+packages <- c('caret', 'coefplot','DBI', 'dbplyr', 'doParallel', 'foreach', 
+              'ggthemes', 'glmnet', 'here', 'jsonlite', 'leaflet', 'odbc', 
+              'recipes', 'rmarkdown', 'rprojroot', 'RSQLite', 'rvest', 
+              'tidyverse', 'threejs', 'usethis', 'UsingR', 'xgboost', 'XML', 
+              'xml2')
+install.packages(packages)
+install.packages('tidyverse', dependencies=TRUE)
+install.packages('keras')
+
 library(keras)
-install_keras()
+install_keras() # install keras and tensorflow dependencies
+is_keras_available()
+```
+
+## What is deep learning
+
+- Feataures (inputs) - try to go wide
+- Transformed features - turn inputs into something more representative and useful to predictive modeling
+- Algo to munch the features
+- Target (output)
+- Need to learn how to 
+    - Feature transform
+    - Build the algo
+- DL good for
+    - Unstructured data, where features are learned rather than designed
+        - Head of kaggle said ML better/winning on structured data
+    - Big data
+        - Needs lots of data
+    - Familiar
+        - Trained networks can be used on new problems
+
+### Neural Networks
+
+- Nodes (neurons) & edges
+- Nodes are built up in horizontal layers, contain values
+- Edges are weighted, feeding values from one layer to next, usually aggregating in next layer
+- Input layer -> thru hidden layers (increasingly abstracted) -> to the output layer
+
+## Iris Neural Network
+
+- Four features
+    - Sepal length
+    - Sepal width
+    - Petal width
+    - Petal length
+- One target: species (setosa, versicolo, etc.)
+
+```{r eval=FALSE}
+library(keras)
+library(caret)
+library(tidyverse)
+
+## Sample IDs for training set
+trainID <- createDataPartition(iris$Species, p = 0.8) 
+
+trainingData <- iris %>%
+  slice(trainID$Resample1)
+
+testData <- iris %>%
+  slice(-trainID$Resample1)
+
+fullData <- list(train = trainingData, 
+                 test = testData)
+
+## Create dummy variables
+dummy <- dummyVars(~ Species, data = iris)
+
+irisDummy <- map(fullData, predict, object = dummy)
+
+head(irisDummy$train)
+
+## Scale the data (split training and test)
+numericIris <- map(fullData, select_if, is.numeric)
+
+scaledIris <- map(numericIris, scale)
+
+head(scaledIris$train)
+
+map(scaledIris, replace_na, replace = 0)
+
+## Create x and y matrix
+xIris <- map(scaledIris, as.matrix)
+yIris <- map(irisDummy, as.matrix)
+
+
+# If you're lost just do
+
+xIris <- readRDS("/data/xIris.rds")
+yIris <- readRDS("/data/yIris.rds")
+
+############# Building models
+
+model <- keras_model_sequential()
+
+## Add layers
+
+model %>%
+  layer_dense(units = 10, input_shape = 4) %>%
+  layer_dense(units = 3, activation = 'softmax')
+
+
+## Define compilation
+
+model %>% compile(
+  optimizer = 'rmsprop',
+  loss = 'categorical_crossentropy',
+  metrics = 'accuracy'
+)
+
+## Train the model
+
+history <- model %>% fit(xIris$train, 
+                     yIris$train, 
+                     epochs = 100, 
+                     validation_data = list(xIris$test, yIris$test))
+
+summary(model)
+
+plot(history)
+
+
+### Evaluate and predict model
+
+model %>% 
+  evaluate(xIris$test, yIris$test)
+
+
+model %>% 
+  predict(xIris$test)
+
+model %>%
+  predict_classes(xIris$test) 
 
 
 
+############# Controlling Layers
+
+model <- keras_model_sequential()
+
+model %>%
+  layer_dense(units = 10, input_shape = 4) %>%
+  layer_dropout(rate = 0.3) %>%
+  layer_dense(units = 3, activation = 'softmax')
+
+model %>% compile(
+  optimizer = 'rmsprop',
+  loss = 'categorical_crossentropy',
+  metrics = 'accuracy'
+)
+
+model %>% fit(xIris$train, 
+              yIris$train, 
+              epochs = 100, 
+              validation_data = list(xIris$test, yIris$test))
+
+```
+
+## TensorFlow, Keras, and R
+__Reference__: _Deep Learning with R_, by Francois Challet
+
+#### TensorFlow
+- Turns models/equations into numerical solvers doing the heavy linear algebra, via transformation into a graph structure
+- Not only for neural networks, general numerical solver
+
+#### R and TensorFlow
+- [TensorFlow docs from RStudio](http://tensorflow.rstudio.com)
+- Use of the `reticulate` package
+- Not much overhead to bring up Python when installing TF
+
+#### Keras
+- [Keras docs from RStudio](http://keras.rstudio.com)
+- Higher leval on top of TF, specifically for neural networks
+
+## How it all fits together
+- We will write against Keras in R
+- Keras will turn that into neural network math
+- TensorFlow receives math from Keras to compute
+
+```{r eval=FALSE}
+library(keras)
+# Use this to limit cpu
+use_session_with_seed(1234)
 
 
-What is deep learning
+# Load the test data
+xWalk <- readRDS("/data/xWalk.rds")
+yWalk <- readRDS("/data/yWalk.rds")
 
-feataures (inputs) - try to go wide
-transformed features - turn inputs into something more representative and useful to predictive modeling
-algo to munch the features
-target (output)
+# Make an empty model
+model <- keras_model_sequential()
 
-need to learn how to 1) feature transform and 2) build the algo
+# Build our CNN
+model %>%
+	  layer_conv_1d(filters = 40, kernel_size = 30, strides = 2,
+			                activation = "relu", input_shape = c(260, 3)) %>%
+  layer_max_pooling_1d(pool_size = 2) %>%
+    layer_conv_1d(filters = 40, kernel_size = 10, activation = "relu") %>%
+      layer_max_pooling_1d(pool_size = 2) %>%
+        layer_flatten() %>%
+	  layer_dense(units = 100, activation = "sigmoid") %>%
+	    layer_dense(units = 15, activation = "softmax")
 
-DL good for:
-  - unstructured data, where features are learned rather than designed
-    head of kaggle said ML better/winning on structured data
-  - big data - needs lots of data
-  - familiar - trained networks can be used on new problems
-
-Neural Networks
-
-nodes (neurons) & edges
-nodes are built up in horizontal layers, contain values
-edges are weighted, feeding values from one layer to next, usually aggregating in next layer
-input layer -> thru hidden layers (increasingly abstracted) -> to the output layer
-
-Iris Neural Network
-
-4 features: sepal length, sepal width, petal width, petal length
-1 target: species (setosa, versicolo, )
-
-TensorFlow -> turns models/equations into numerical solvers doing the heavy linalg, via transofmration into a graph structure
-  not only for neural networks, general numerical solver
-
-R and TensorFlow
-  tensorflow.rstudio.com
-  reticulate package
-  not much overhead to bring up python when installing TF
-
-Keras
-  keras.rstudio.com
-  higher leval on top of TF, specifically for neural networks
-
-Deep Learning with R (Francois Challet)
+    model
 
 
-How it all fits together
 
-We will write against Keras in R
-Keras will turn that into NN math
-TensorFlow receives math from Keras to compute
+    # Compile
+    model %>%
+	      compile(loss = "categorical_crossentropy",
+		                optimizer = "adam",
+				          metrics = c("accuracy"))
 
+    # Run
+    history <- model %>% fit(xWalk$train, yWalk$train,
+			                              epochs = 15, 
+						                               batch_size = 128, 
+						                               validation_split = 0.3,
+									                                verbose = 1)
 
+    # Evaluate
+    model %>% 
+	      evaluate(xWalk$test, yWalk$test, verbose = 0)
+```
