@@ -36,6 +36,16 @@ $ mv ~/dev/r/odsc-2018/landeranalytics-training ~/dev/r/odsc-2018/learningr/data
 
 
 
+packages <- c('here', 'coefplot', 'useful', 'glmnet', 'ggplot2', 'magrittr')
+purrr::walk(packages, library, character.only=TRUE)
+getwd()
+setwd('/home/srussell/dev/r/odsc-2018/learningr')
+getwd()
+dir('data/landeranalytics-training/data')
+lots <- readr::read_csv(here('data', 'manhattan_train.csv'))
+
+
+
 Supervised Learning
 Y = f(X)
 Y is response, a function of X, your predictors
