@@ -1,41 +1,79 @@
-Machine Learning in R
-Jared Lander
-jaredlander.com/talks
-github.com/jaredlander/odsceast2018
-github.com/jaredlander/learningr.git
+---
+title: "Machine Learning in R"
+author: "Dr. Jared Lander"
+date: "May 1, 2018"
+output: 
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+    number_sections: no
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
+```
 
-Data Prep
+## Overview
 
-R
+<div class="row">
+
+<div class="col-md-6">
+Dr. Jared Lander  
+@[jaredlander](https://twitter.com/jaredlander)
+[Website](https://jaredlander.com/talks)  
+[Training notes repo](https://github.com/jaredlander/odsceast2018)  
+[Training files repo](https://github.com/jaredlander/learningr)  
+</div>
+
+<div class="col-md-6">
+![](images/resized/lander_150.jpg)
+</div>
+
+</div>
+
+***
+
+## Data Prep
+
+```
 $ cd ~/dev/r
 $ mkdir odsc-2018; cd odsc-2018
 $ git clone git@github.com:jaredlander/learningr.git
+```
 
 https://data.world/landeranalytics/training
 Download zip
+```
 $ mv ~/Downloads/landeranalytics-training.zip ~/dev/r/odsc-2018
 $ unzip landeranalytics-training.zip
+```
 
 R Studio
 Install tidyverse dependencies (https://stackoverflow.com/questions/45719942/how-to-install-tidyverse-on-ubuntu-16-04-and-17-04?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+```
 $ sudo apt install -y r-cran-curl r-cran-openssl r-cran-xml2
+```
 
+```{r eval=FALSE}
 packages <- c('caret', 'coefplot','DBI', 'dbplyr', 'doParallel', 'foreach', 
               'ggthemes', 'glmnet', 'jsonlite', 'leaflet', 'odbc', 
               'recipes', 'rmarkdown', 'rprojroot', 'RSQLite', 'rvest', 
               'tidyverse', 'threejs', 'usethis', 'UsingR', 'xgboost', 'XML', 
               'xml2')
 install.packages(packages)
+```
 
 Open the LearningR RStudio Project
 RStudio > Files > /home/srussell/dev/r/odsc-2018/learningr/LearningR.Rproj
 
 Move data.world files into learningr/data directory
+```
 $ mv ~/dev/r/odsc-2018/landeranalytics-training ~/dev/r/odsc-2018/learningr/data
+```
 
-
-
+```{r eval=FALSE}
 packages <- c('here', 'coefplot', 'useful', 'glmnet', 'ggplot2', 'magrittr')
 purrr::walk(packages, library, character.only=TRUE)
 getwd()
@@ -43,11 +81,15 @@ setwd('/home/srussell/dev/r/odsc-2018/learningr')
 getwd()
 dir('data/landeranalytics-training/data')
 lots <- readr::read_csv(here('data', 'manhattan_train.csv'))
-
+```
 
 
 Supervised Learning
+
+\[
 Y = f(X)
+\]
+
 Y is response, a function of X, your predictors
 
 Y is a column of responses
@@ -65,10 +107,15 @@ github.com/jaredlander/odsceast2018
 jaredlander.com/talks
 Lasso Regression for Everyone
 
-Y[] = X[][] * B[] + e[]
-Solution
-B = (X^T * X)^-1 * (X^T * Y)
+\[
+Y = X \beta + \epsilon
+\]
 
+Solution
+
+\[
+\hat\beta = (X^T X)^{-1} (X^T Y)
+\]
 Curse of dimensionality 
 as dimensions are added (e.g. cube into n-dim hypercube), the solution space gets exponentially harder to model
 as variables are added to break up observations, the number of observations in each combination of variables gets smaller

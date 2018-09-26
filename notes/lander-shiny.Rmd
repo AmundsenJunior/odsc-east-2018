@@ -1,9 +1,39 @@
-RMarkdown & Shiny
+---
+title: "Introduction to RMarkdown in Shiny"
+author: "Dr. Jared Lander"
+date: "May 2, 2018"
+output: 
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+    number_sections: no
+---
 
-Jared Lander
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
+```
 
+## Overview
 
-RMarkdown
+<div class="row">
+
+<div class="col-md-6">
+Dr. Jared Lander  
+@[jaredlander](https://twitter.com/jaredlander)
+[Website](https://jaredlander.com/talks)  
+[Training notes repo](https://github.com/jaredlander/odsceast2018)  
+[Training files repo](https://github.com/jaredlander/learningr)  
+</div>
+
+<div class="col-md-6">
+![](images/resized/lander_150.jpg)
+</div>
+
+</div>
+
+## RMarkdown
 
 save as .Rmd files
 set metadata at top of file with '---' to open and close

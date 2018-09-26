@@ -1,11 +1,18 @@
 ---
 title: "R Packages as Collaboration Tools"
 author: "Stephanie Kirmer"
-output: html_document
+date: "May 3, 2018"
+output: 
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+    number_sections: no
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 ```
 
 ## Overview

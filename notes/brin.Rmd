@@ -1,11 +1,18 @@
 ---
 title: "Visualization throughout the Data Science Workflow: Why It's Useful and How Not to Lie"
 author: "Dr. Lindsay Brin"
-output: html_document
+date: "May 4, 2018"
+output: 
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+    number_sections: no
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 ```
 
 ## Overview

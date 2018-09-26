@@ -1,12 +1,12 @@
 ---
-title: "ODSC 2018"
+title: "ODSC East 2018"
 author: "Scott Russell"
-date: "August 28, 2018"
+date: "May 1-4, 2018"
 output:
     ioslides_presentation:
         widescreen: true
         self_contained: true
-        logo: images/resized/odsc-logo.png
+        logo: images/resized/odsc-logo_150.jpg
 ---
 
 ```{r setup, include=FALSE}
