@@ -1,0 +1,45 @@
+---
+title: Intermediate RMarkdown Presentation
+author: Scott Russell
+output:
+    ioslides_presentation:
+        widescreen: true
+        self_contained: true
+---
+
+```{r settings, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE, fig.align='center')
+```
+
+## Slide One
+
+Hello, world!
+
+## Slide Two
+
+We're on a roll
+
+# Section Two
+
+## Slide Three
+
+Having fun.
+
+<div class='notes'>
+- Just some food for thought
+</div>
+
+## Plot
+
+```{r diamonds-plot, warning=FALSE, message=FALSE}
+library(ggplot2)
+ggplot(diamonds, aes(x=price)) + geom_histogram()
+```
+
+<div class='notes'>
+- This shows the distribution of prices
+- These notes store into speaker notes section
+- Open the 'presentation.html?presentme=true' file, and hit the warning about popups
+- Then refresh the page, and a popup should come up
+- That popup, if you press 'P' it will run synchronized in presentation mode, with the popup showing notes and other page just showing the slides
+</div>

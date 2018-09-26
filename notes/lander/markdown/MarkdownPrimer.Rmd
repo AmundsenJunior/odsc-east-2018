@@ -1,0 +1,148 @@
+---
+title: "Learning RMarkdown with Shiny at ODSC East 2018 from Jared Lander"
+author: "Scott Russell"
+date: "May 2, 2018"
+output:
+  word_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+  html_document:
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+---
+
+For RMarkdown section 2, global setting for RMarkdown page. 
+```{r settings, include=TRUE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+# Markdown Formatting
+
+`<!-- comment with highlighting and hitting Ctrl+Shift+C -->`
+
+## Section One
+
+We started a new section. That is all it takes.
+
+Leaving a blank line before the next text starts a new paragraph.
+
+Hit F7 in RStudio to run spell-check.
+
+## Section Two
+
+Here's section two. Let's create subsections.
+
+### Subsection One
+
+We started a subsection, using two hashtags ( `##` ).
+
+### Subsection Two
+
+Section headings match up to HTML header tags, h1 - h6, so `#` to `######`.
+
+## Formatting Text
+
+Not styling (that's for CSS).
+
+_Emphasized Text_ is done with `_emphasized text_`. Use emphasize so that CSS can be used to define how emphasis is styled. Can also use asterisks `*emphasized text*` instead.
+
+__Strong Text__ is done with `__strong text__`.
+
+___Emphasized and strong text___ is done with `___emphasized and strong text___`.
+
+`unformatted code` is done with backticks ``.
+
+## Lists
+
+### Unordered Lists
+
+Done with `- text` on every line.
+
+- Apple
+- Banana
+- Orange
+- Kiwi
+- Durian
+- Watermelon
+
+### Ordered Lists
+
+Done with `1. text` or `a. text` on every line. If you want Roman Numerals, that's a CSS change.
+
+1. New York
+1. New Jersey
+1. Detroit
+1. Naples
+1. New Haven
+1. Rome
+
+a. Pepperoni
+b. Broccoli
+c. Ricotta
+d. Onion
+e. Eggplant
+
+### Nested Lists
+
+Can nest ordered and unordered lists within other lists.
+
+1. New York
+    1. Coal
+    1. Wood
+    1. Gas
+1. New Jersey
+    - Gas
+    - Wood
+1. Naples
+
+## Links
+
+[My Github](https://github.com/amundsenjunior)
+
+# RMarkdown
+
+Insert R code chunk with `Ctrl+Alt+I`. Can insert other language chunks, to insert in the curly braces (e.g. `{python}`, `{bash}`, or `{sql}`).
+
+Can hit `Ctrl+Enter` in the .Rmd file to run R code
+```{r}
+1 + 1
+```
+
+```{r}
+x <- 3
+x
+```
+
+```{r}
+x*2
+```
+
+Let's give our chunks names. Add a name after the r language pointer in the head of the chunk: `{r code-name-with-no-spaces}`. They must be unique across the entire document.
+```{r simple-code-ex}
+x*3+7
+```
+
+Let's show the results of a chunk without seein the code, with `{r code-name, echo=FALSE}`.
+```{r another-example, echo=FALSE}
+5*x + 4
+```
+
+## Plots
+
+Let's make a nice plot.
+```{r load-ggplot}
+library(ggplot2)
+```
+
+Add alignment and a caption to the plot, with `{r code-name, fig.align='center', fig.cap='Caption text'}`.
+
+Cache the image creation from the Rmarkdown knitting so it loads faster, with `{r cache=TRUE}`.
+```{r plot-diamonds, fig.align='center', fig.cap='A scatterplot of diamond price vs size, color coded according to diamond cut.', cache=TRUE}
+ggplot(diamonds, aes(x=carat, y=price, color=cut)) +
+    geom_point()
+```
+
