@@ -22,12 +22,12 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 <div class="col-md-6">
 Dr. Douglas Ashton  
 [Mango Solutions](https://www.mango-solutions.com/)  
-@[dougashton](https://twitter.com/dougashton)  
+[\@dougashton](https://twitter.com/dougashton)  
 [GitHub repo](https://github.com/mangothecat/keras-workshop)  
 </div>
 
 <div class="col-md-6">
-![](images/resized/ashton_150.jpg)
+![](images/ashton.jpg)
 </div>
 
 </div>

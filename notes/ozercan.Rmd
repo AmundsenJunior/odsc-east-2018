@@ -22,14 +22,14 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 <div class="col-md-6">
 Sertac Ozercan  
 [Microsoft Azure](https://azure.microsoft.com/en-us/)  
-@[sozercan](https://twitter.com/sozercan)  
+[\@sozercan](https://twitter.com/sozercan)  
 [Slides](http://aka.ms/kubeflow-labs-slides)  
 [Demos](http://aka.ms/kubeflow-labs-demos)  
 [GitHub repo](https://github.com/azure/kubeflow-labs)  
 </div>
 
 <div clas="col-md-6">
-![](images/resized/ozercan_150.jpg)  
+![](images/ozercan.jpg)  
 </div>
 
 </div>

@@ -21,14 +21,14 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 
 <div class="col-md-6">
 Dr. Jared Lander  
-@[jaredlander](https://twitter.com/jaredlander)
+[\@jaredlander](https://twitter.com/jaredlander)
 [Website](https://jaredlander.com/talks)  
 [Training notes repo](https://github.com/jaredlander/odsceast2018)  
 [Training files repo](https://github.com/jaredlander/learningr)  
 </div>
 
 <div class="col-md-6">
-![](images/resized/lander_150.jpg)
+![](images/lander.jpg)
 </div>
 
 </div>
@@ -66,12 +66,21 @@ ui.R renders HTML - lots of nested functions calling other functions
 server.R backend operation of the server, mostly regular R code within one main function
 
 Needed package shinythemes
-> install.packages('shinythemes')
+> install.packages('shiny', 'threejs', 'rmarkdown', 'leaflet', 'shinythemes')
 
 Create your own shiny theme
 
 Create your own ggplot2 theme, modeled off ggthemes template
 
+```{r eval=FALSE}
+root <- rprojroot::find_rstudio_root_file()
+dataDir <- file.path(root, 'data')
+
+# FavoriteSpots.json
+download.file(
+    'https://query.data.world/s/033kPeDH9pMdcnhPRIOwhjrw3lpA10',
+    destfile=file.path(dataDir, 'FavoriteSpots.json'))
+```
 
 Download file into app/ dir, via console:
   > download.file('https://www.jaredlander.com/data/FavoriteSpots.json', destfile='app/FavoriteSpots.json')

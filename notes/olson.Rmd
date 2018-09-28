@@ -22,13 +22,13 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 <div class="col-md-6">
 Dr. Randy Olson  
 [Life Epigenetics](https://lifeegx.com/)  
-@[randal_olson](https://twitter.com/randal_olson)  
+[\@randal_olson](https://twitter.com/randal_olson)  
 [Website](http://www.randalolson.com)  
 [Talk notes](http://bit.ly/2HS01Rr)  
 </div>
 
 <div class="col-md-6">
-![](images/resized/olson_150.jpg)  
+![](images/olson.jpg)  
 </div>
 
 </div>

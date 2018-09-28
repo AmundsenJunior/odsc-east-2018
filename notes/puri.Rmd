@@ -22,11 +22,11 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 <div class="col-md-6">
 Dr. Ruchir Puri  
 Architect at [IBM Watson](https://www.ibm.com/watson/)  
-@[ruchir_puri](https://twitter.com/ruchir_puri)
+[\@ruchir_puri](https://twitter.com/ruchir_puri)
 </div>
 
 <div class="col-md-6">
-![](images/resized/puri_150.jpg)
+![](images/puri.jpg)
 </div>
 
 </div>

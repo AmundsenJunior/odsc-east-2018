@@ -22,12 +22,12 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 <div class="col-md-6">
 Stephanie Kirmer  
 [Uptake](https://www.uptake.com/)  
-@[data_stephanie](https://twitter.com/data_stephanie)  
+[\@data_stephanie](https://twitter.com/data_stephanie)  
 [GitHub repo](https://github.com/skirmer/odsc2018)  
 </div>
 
 <div class="col-md-6">
-![](images/resized/kirmer_150.jpg)
+![](images/kirmer.jpg)
 </div>
 
 </div>

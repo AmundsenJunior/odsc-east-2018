@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+
+# knitr outputs
+notes/*.html
+notes/*_cache

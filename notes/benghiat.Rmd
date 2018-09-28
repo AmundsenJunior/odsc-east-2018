@@ -22,11 +22,11 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 <div class="col-md-6">
 Dr. Gil Benghiat  
 [DataKitchen](https://www.datakitchen.io/)  
-@[benghiat](https://twitter.com/benghiat)  
+[\@benghiat](https://twitter.com/benghiat)  
 </div>
 
 <div class="col-md-6">
-![](images/resized/benghiat_150.jpg)
+![](images/benghiat.jpg)
 </div>
 
 </div>

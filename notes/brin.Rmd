@@ -26,7 +26,7 @@ Dr. Lindsay Brin
 </div>
 
 <div class="col-md-6">
-![](images/resized/brin_150.jpg)
+![](images/brin.jpg)
 </div>
 
 </div>

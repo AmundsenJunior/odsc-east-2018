@@ -22,11 +22,11 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 <div class="col-md-6">
 Jon Peck  
 [Algorithmia](https://algorithmia.com)  
-@[peckjon](https://twitter.com/peckjon)  
+[\@peckjon](https://twitter.com/peckjon)  
 </div>
 
 <div class="col-md-6">
-![](images/resized/peck_150.jpg)  
+![](images/peck.jpg)  
 </div>
 
 </div>

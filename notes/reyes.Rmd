@@ -25,7 +25,7 @@ Isaac Reyes
 </div>
 
 </div class="col-md-6">
-![](images/resized/reyes_150.jpg)
+![](images/reyes.jpg)
 </div>
 
 </div>

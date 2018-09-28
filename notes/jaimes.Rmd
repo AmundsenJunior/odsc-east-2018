@@ -22,11 +22,11 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 <div class="col-md-6">
 Dr Alejandro (Alex) Jaimes  
 [DigitalOcean](https://www.digitalocean.com/)  
-@[tinybigdata](https://twitter.com/tinybigdata)  
+[\@tinybigdata](https://twitter.com/tinybigdata)  
 </div>
 
 <div class="col-md-6">
-![](images/resized/jaimes_150.jpg)
+![](images/jaimes.jpg)
 </div>
 
 </div>

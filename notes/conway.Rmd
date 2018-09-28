@@ -23,11 +23,11 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 Dr. Drew Conway  
 CEO of [Alluvium](https://alluvium.io/)  
 Co-Founder of [DataKind](https://www.datakind.org/)  
-@[drewconway](https://twitter.com/drewconway)  
+[\@drewconway](https://twitter.com/drewconway)  
 </div>
 
 <div class="col-md-6">
-![](images/resized/conway_150.jpg)  
+![](images/conway.jpg)  
 </div>
 
 </div>

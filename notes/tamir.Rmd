@@ -22,11 +22,11 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 <div class="col-md-6">
 Dr. Michael Tamir  
 [Uber](https://www.uber.com/)  
-@[miketamir](https://twitter.com/miketamir)  
+[\@miketamir](https://twitter.com/miketamir)  
 </div>
 
 <div class="col-md-6">
-![](images/resized/tamir_150.jpg)
+![](images/tamir.jpg)
 </div>
 
 </div>

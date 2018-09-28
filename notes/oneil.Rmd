@@ -22,12 +22,12 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 <div class="col-md-6">
 Dr. Catherine O'Neil  
 Author of _[Weapons of Math Destruction](https://weaponsofmathdestructionbook.com/)_  
-@[mathbabedotorg](https://twitter.com/mathbabedotorg)  
+[\@mathbabedotorg](https://twitter.com/mathbabedotorg)  
 [Website](https://mathbabe.org)  
 </div>
 
 <div class="col-md-6">
-![](images/resized/oneil_150.jpg)
+![](images/oneil.jpg)
 </div>
 
 </div>

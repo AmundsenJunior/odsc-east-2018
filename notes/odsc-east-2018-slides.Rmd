@@ -6,7 +6,7 @@ output:
     ioslides_presentation:
         widescreen: true
         self_contained: true
-        logo: images/resized/odsc-logo_150.jpg
+        logo: images/odsc-logo.jpg
 ---
 
 ```{r setup, include=FALSE}
@@ -40,6 +40,8 @@ Jared Lander
 jaredlander.com  
 github.com/jaredlander
 
+_[Training Notes](lander-ml.html)_
+
 ## RMarkdown & Shiny
 
 Wednesday, May 2, 2018  
@@ -47,6 +49,8 @@ Jared Lander
 @jaredlander  
 jaredlander.com  
 github.com/jaredlander
+
+_[Training Notes](lander-shiny.html)_
 
 # Keynotes
 
@@ -60,7 +64,7 @@ Hosted by Katherine Gorman of Talking Machines podcast
 - Key problems are in machine teaching and learning with small data, not big
 - Requires knowledge of the enterprise to pose right questions that can't be answered by consumer AI applications
 
-_[Session Notes](./puri.Rmd)_
+_[Session Notes](puri.html)_
 
 ## Building a Data Science Company | Dr. Drew Conway, CEO of Alluvium & Co-Founder of Data Kind
 
@@ -75,7 +79,7 @@ _[Session Notes](./puri.Rmd)_
         - Company culture fit
     - Post-interview: Consensus hire or no-hire
 
-_[Session Notes](./conway.Rmd)_
+_[Session Notes](conway.html)_
 
 ## WMDs and Solutions | Dr. Catherine O'Neil, Author of _Weapons of Math Destruction_
 
@@ -89,7 +93,7 @@ _[Session Notes](./conway.Rmd)_
 - Hippocratic oath for data science
     - Have someone's legal, human, or constitutional rights been violated?
 
-_[Session Notes](./oneil.Rmd)_
+_[Session Notes](oneil.html)_
 
 # Workshops & Talks | Thursday-Friday, May 3-4, 2018
  
@@ -114,7 +118,7 @@ fakerfact.org
     - `king - man + woman = queen`
     - `england - london + paris = france`
 
-_[Session Notes](./tamir.Rmd)_
+_[Session Notes](tamir.html)_
 
 ## The Past, Present, and Future of Automated Machine Learning | Dr. Randy Olson, Life Epigenetics  
 
@@ -127,13 +131,15 @@ _[Session Notes](./tamir.Rmd)_
 - AutoML is only part of the future of meta-learning
     - How to enable machines to learn how to learn optimally
 
-_[Session Notes](./olson.Rmd)_
+_[Session Notes](olson.html)_
 
 ## Training and Serving TensorFlow Models at Scale with Kubernetes | Sertac Ozercan, Microsoft
 
 - Take advantage of Kubernetes scaling and scheduling to train TensorFlow models
 - Demo of using kubeflow on Azure Kubernetes Service
 - Shows kubeflow as a good system for developing and training ML/DL models
+
+_[Session Notes](ozercan.html)_
 
 ## How to Go from Data Science to Data Operations | Gil Benghiat, DataKitchen
 
@@ -155,14 +161,14 @@ _[Session Notes](./olson.Rmd)_
     1. Reuse & containerize
     1. Parameterize your processing
 
-_[Session Notes](./benghiat.Rmd)_
+_[Session Notes](benghiat.html)_
 
 ## Deploying your AI/ML Investments | Jon Peck, Algorithmia
 
 - "Tensorflow is open source, scaling it is not."
 - Use Algorithmia
 
-_[Session Notes](./peck.Rmd)_
+_[Session Notes](peck.html)_
 
 ## From Numbers to Narrative: Data Storytelling | Isaac Reyes, DataSeer
 
@@ -178,7 +184,7 @@ _[Session Notes](./peck.Rmd)_
     - Enclosure
 - "Above all else, show the data." - Edward Tufte
 
-_[Session Notes](./reyes.Rmd)_
+_[Session Notes](reyes.html)_
 
 ## Challenges and Opportunities in Applying Machine Learning | Dr. Alex Jaimes, DigitalOcean
 
@@ -190,7 +196,7 @@ _[Session Notes](./reyes.Rmd)_
 1. Data quality
 1. ML v DL, GPU v CPU
 
-_[Session Notes](./jaimes.Rmd)_
+_[Session Notes](jaimes.html)_
 
 ## Visualization throughout the Data Science Workflow: Why It's Useful and How Not to Lie | Dr. Lindsay Brin, T4G Limited
 
@@ -198,5 +204,5 @@ _[Session Notes](./jaimes.Rmd)_
 - When is specifically data visualization a good choice?
 - How not to lie with data visualization
 
-_[Session Notes](./brin.Rmd)_
+_[Session Notes](brin.html)_
 
