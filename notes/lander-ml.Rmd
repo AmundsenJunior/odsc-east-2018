@@ -11,8 +11,8 @@ output:
     number_sections: no
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
+```{r setup,include=FALSE}
+knitr::opts_chunk$set(cache=TRUE, echo=TRUE, eval=FALSE)
 ```
 
 ## Overview
@@ -21,14 +21,14 @@ knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
 
 <div class="col-md-6">
 Dr. Jared Lander  
-@[jaredlander](https://twitter.com/jaredlander)
+[\@jaredlander](https://twitter.com/jaredlander)  
 [Website](https://jaredlander.com/talks)  
 [Training notes repo](https://github.com/jaredlander/odsceast2018)  
 [Training files repo](https://github.com/jaredlander/learningr)  
 </div>
 
 <div class="col-md-6">
-![](images/resized/lander_150.jpg)
+![](images/lander.jpg)
 </div>
 
 </div>
@@ -43,97 +43,472 @@ $ mkdir odsc-2018; cd odsc-2018
 $ git clone git@github.com:jaredlander/learningr.git
 ```
 
-https://data.world/landeranalytics/training
-Download zip
+Download training data ZIP from https://data.world/landeranalytics/training:   
 ```
 $ mv ~/Downloads/landeranalytics-training.zip ~/dev/r/odsc-2018
 $ unzip landeranalytics-training.zip
 ```
 
-R Studio
-Install tidyverse dependencies (https://stackoverflow.com/questions/45719942/how-to-install-tidyverse-on-ubuntu-16-04-and-17-04?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+```{r download-data}
+root <- rprojroot::find_rstudio_root_file()
+dataDir <- file.path(root, 'data')
+
+# manhattan_Train.rds
+download.file(
+    'https://query.data.world/s/t6nblljn7a5ei6ghdqzkhfynn7iu5b',
+    destfile=file.path(dataDir, 'manhattan_Train.rds'),
+    mode='wb')
+
+# manhattan_Test.rds
+download.file(
+    'https://query.data.world/s/tkfdrcapfsw7ihodbjzsdywz7povce',
+    destfile=file.path(dataDir, 'manhattan_Test.rds'),
+    mode='wb')
+
+# manhattan_Validate.rds
+download.file(
+    'https://query.data.world/s/4tfwbez3ul5ap7apg2ffgltfpzmifm',
+    destfile=file.path(dataDir, 'manhattan_Validate.rds'),
+    mode='wb')
+```
+
+Install tidyverse dependencies:  
+[Dependencies note for Ubuntu users](https://stackoverflow.com/questions/45719942/how-to-install-tidyverse-on-ubuntu-16-04-and-17-04?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)  
 ```
 $ sudo apt install -y r-cran-curl r-cran-openssl r-cran-xml2
 ```
 
-```{r eval=FALSE}
+Install R packages  
+```{r install-packages}
 packages <- c('caret', 'coefplot','DBI', 'dbplyr', 'doParallel', 'foreach', 
-              'ggthemes', 'glmnet', 'jsonlite', 'leaflet', 'odbc', 
-              'recipes', 'rmarkdown', 'rprojroot', 'RSQLite', 'rvest', 
-              'tidyverse', 'threejs', 'usethis', 'UsingR', 'xgboost', 'XML', 
-              'xml2')
+              'ggthemes', 'glmnet', 'jsonlite', 'recipes', 
+              'rprojroot', 'rvest', 'tidyverse', 'useful', 'usethis',
+              'UsingR', 'xgboost', 'XML', 'xml2')
 install.packages(packages)
 ```
 
-Open the LearningR RStudio Project
-RStudio > Files > /home/srussell/dev/r/odsc-2018/learningr/LearningR.Rproj
-
-Move data.world files into learningr/data directory
+Move data.world files into `learningr/data` directory:    
 ```
 $ mv ~/dev/r/odsc-2018/landeranalytics-training ~/dev/r/odsc-2018/learningr/data
 ```
 
-```{r eval=FALSE}
-packages <- c('here', 'coefplot', 'useful', 'glmnet', 'ggplot2', 'magrittr')
-purrr::walk(packages, library, character.only=TRUE)
-getwd()
-setwd('/home/srussell/dev/r/odsc-2018/learningr')
-getwd()
-dir('data/landeranalytics-training/data')
-lots <- readr::read_csv(here('data', 'manhattan_train.csv'))
-```
+Open the LearningR RStudio Project:  
+`RStudio > Files > /home/srussell/dev/r/odsc-2018/learningr/LearningR.Rproj`
 
+## Formal Interface
 
-Supervised Learning
+### Supervised Learning
 
 \[
 Y = f(X)
 \]
 
-Y is response, a function of X, your predictors
+$Y$ is response, a function of $X$, your predictors. In matrix math:  
 
-Y is a column of responses
-X is a matrix of predictors
+- $Y$ is a column of responses
+- $X$ is a matrix of predictors
 
-Machine learning - fit the model on a large subset of training data, and test the model against the remainder of data, your test data
+### Formal Interface
 
-Process
-training phase = training data & training responses > create a model
-generalization phase = test data > prediction, test responses > evaluation
-
-
-github.com/jaredlander/odsceast2018
-
-jaredlander.com/talks
-Lasso Regression for Everyone
-
+Source: [Lasso Regression for Everyone](https://jaredlander.com/talks)  
 \[
 Y = X \beta + \epsilon
 \]
 
-Solution
-
+Solution:  
 \[
 \hat\beta = (X^T X)^{-1} (X^T Y)
 \]
-Curse of dimensionality 
-as dimensions are added (e.g. cube into n-dim hypercube), the solution space gets exponentially harder to model
-as variables are added to break up observations, the number of observations in each combination of variables gets smaller
-as more columns are added, modeling requires more data
+
+### Matrix Algebra
+
+Use `tidyverse tibble` package to create fancier `data.frame`s:  
+```{r create-tibble-frame}
+boros <- tibble::tribble(
+  ~ Boro, ~ Pop, ~ Size, ~ Random,
+  'Manhattan', 1600000, 23, 7,
+  'Brooklyn', 2600000, 78, 24,
+  'Queens', 2330000, 104, pi,
+  'Bronx', 1455000, 42, 21,
+  'Staten Island', 475000, 60, 3
+)
+boros
+```
+
+The `useful` library provides some Jared Lander helpers:  
+```{r load-useful}
+library(useful)
+```
+
+Formula $Y$ ~ $X$:  
+
+- Now a matrix, with only numbers
+- Easier to do matrix algebra
+
+```{r create-model}
+build.x( ~ Pop, data=boros)
+```
+
+Add a second variable:  
+```{r add-variable}
+build.x( ~ Pop + Size, boros)
+```
+
+#### Linear Model in matrix form:  
+\[
+Y\begin{bmatrix}y_1 \\ \vdots \\ y_i \end{bmatrix} 
+= X\begin{bmatrix}x_{11} & \cdots & x_{1j}\\ \vdots & \ddots & \vdots \\ x_{i1} & \cdots & x_{ij}\end{bmatrix} \beta\begin{bmatrix}b_1 \\ \vdots \\ b_i\end{bmatrix} + \epsilon\begin{bmatrix}e_1 \\ \vdots \\ e_i\end{bmatrix}
+\]
+
+This represents a column of responses ($Y$) equal to a 2-d matrix of variables-observations ($X$) multiplied by a column of their coefficients ($/beta$) plus the errors column ($/epsilon$).  
+**This is what happens under the hood of `lm` and `glm`.**  
+
+#### Interaction terms and the multiplicative effect
+
+Let's create a matrix with both the individual terms and the interaction term, preferred by oldfashioned statisticians:  
+```{r create-model-with-interaction}
+build.x( ~ Pop * Size, boros)
+```
+
+We can also create a matrix with just the interaction term:
+```{r create-model-just-interaction}
+build.x( ~ Pop:Size, boros)
+```
+
+If I want population and the interaction term, use either:  
+```{r create-model-pop-inter}
+build.x( ~ Pop + Pop:Size, boros)
+```
+or  
+```{r create-model-pop-inter-2}
+build.x( ~ Pop * Size - Size, boros)
+```
+which is an easier method when you have multiple predictors.
+
+To get rid of intercept, subtract it out of the model:  
+```{r remove-intercept}
+build.x( ~ Pop - 1, boros)
+```
+
+#### Handling categorical factors
+How do we model the categorical borough name `Boro`? Usually, a factor variable or dummy variable is used.
+But, in machine learning, we may not want to imply ordinality.
+For counter-example, in education, "some high school, high school grad...." could work ordinally.
+Instead, we'll use a boolean with each category as a column:  
+```{r create-model-boros}
+build.x( ~ Boro, boros)
+```
+
+This leaves out `BoroBronx`, by default the first category alphabetically.
+In matrix algebra, can't allow for collinearity where every column adds up to 1. 
+However, collinearity doesn't matter as much in machine learning.
+So, we include the Bronx column:  
+```{r create-model-boros-bronx}
+build.x( ~ Boro, boros, contrasts=FALSE)
+```
+
+```{r}
+build.x( ~ Pop + Boro, boros, contrasts=FALSE)
+```
+
+```{r}
+build.x( ~ Pop * Boro, boros)
+```
+
+#### Sparse Matrices
+Optimal in ML to create a sparse matrix. 
+Do you need to store all those zeroes, where an integer is the same size in memory regardless of value?
+Sparse matrices save storage space and compute time.
+To create a sparse matrix, build the model specifying so:  
+```{r create-sparse-matrix-model}
+build.x( ~ Pop * Boro, boros, sparse=TRUE)
+```
+
+## Linear Regression
+
+#### Machine Learning Process  
+
+**Machine learning**: Fit the model on a large subset of training data, and test the model against the remainder of data, your test data.
+
+- Training Phase: Input of training data & training responses is used to create a model.
+- Generalization Phase: test data > prediction, test responses > evaluation
+
+### Curse of dimensionality 
+- As dimensions are added (e.g. cube into n-dim hypercube, and beyond), the solution space gets exponentially harder to model.
+- As variables are added to break up observations, the number of observations in each combination of variables gets smaller.
+- As more columns are added, modeling requires more data.
+
+#### Solutions to dimensionality
+- Shrinkage (Bayesian)
+- Regularization (machine learning)
+- Elastic Net - automated variable selection
+    - The math applies a _penalty term_ that shrinks some of the variable coefficients to zero
+    - The penalty term is a combination of the ridge and lasso regressions
 
 
-Solutions to dimensionality
-Shrinkage (bayesian), Regularization (machine learning)
+Load multiple packages as libraries into project with `purrr::walk` function:  
+```{r load-glm-libs}
+packages <- c('here', 'coefplot', 'useful', 'glmnet', 'ggplot2', 'magrittr')
+purrr::walk(packages, library, character.only=TRUE)
+```
 
-Elastic Net - automated variable selection
-the math applies a penalty term that shrinks some of the variable coefficients to zero
-the penalty term is a combination of the ridge and lasso regressions
+
+```{r}
+dir('data/landeranalytics-training/data')
+
+# load lots data from csv
+lots <- readRDS(here('data/landeranalytics-training/data', 'manhattan_Train.rds'))
+
+# tabular rep of data
+View(lots)
+names(lots)
+
+# linear model formula (don't include the intercept)
+valueFormula <- TotalValue ~ FireService + ZoneDist1 + ZoneDist2 + Class + LandUse + OwnerType + LotArea + BldgArea + 
+    ComArea + ResArea + OfficeArea + RetailArea + GarageArea + FactryArea + NumBldgs + NumFloors + UnitsRes + 
+    UnitsTotal + LotFront + LotDepth + BldgFront + BldgDepth + LotType + Landmark + BuiltFAR + Built + HistoricDistrict - 1
+
+class(valueFormula)
+
+#initial linear model
+value1 <- lm(valueFormula, data=lots)
+
+# coefficient plot of all coefficients
+# value estimate is the dot for each coefficient, with the wings the confidence intervals
+coefplot(value1, sort='magnitude')
+?coefplot
+summary(value1)
 
 
-nyhackr.org - ny r and stats prog meetup
+# glmnet requires matrices
+# easiest to create once, then apply multiple models against
 
-Code Worksheets
+lotsX <- build.x(valueFormula, data=lots, contrasts=FALSE, sparse=TRUE)
+dim(lotsX)
+class(lotsX)
 
-formalInterface.R
-glmnet.R
-xgboost.R
+lotsY <- build.y(valueFormula, data=lots)
+head(lotsY)
+class(lotsY)
+
+value2 <- glmnet(x=lotsX, y=lotsY, family='gaussian')
+# glmnet is fitting a regression for each value of lambda (fit 100 models sequentially)
+# it's actually faster than lm fitting one model
+# glmnet automatically scales all variables, calculates coefficients, then unscales the coefficients as output
+
+value2$lambda
+# bigger the lambda the more shrinkage, the smaller lambda, less shrinkage
+
+plot(value2)
+
+coefpath(value2)
+# hover over
+# x axis is log lambda - little to a lot of penalty/shrinkage
+# y axis shows values of coefficients
+# with each line representing the coefficient for a different variable, including one line per category in categorical variables
+
+coef(value2)
+
+range(value2$lambda)
+
+# when choosing a small lambda, not a lot of penalty, so most variables still present
+# large lambda - most vars removed
+coefplot(value2, sort='magnitude', lambda=500)
+coefplot(value2, sort='magnitude', lambda=2000000)
+coefplot(value2, sort='magnitude', lambda=100000)
+
+# what is the right lambda is the wrong question
+# we can answer what the optimal lambda for the model to fit with the data
+
+# cross-validation
+# split dataset into k discrete sets
+# check model against each subset
+
+value3 <- cv.glmnet(x=lotsX, y=lotsY, family='gaussian', nfolds=5)
+plot(value3)
+# cross validation glmnet gives us the mean squared errors
+# top of x axis is number of variables in your model for a specific log(lambda)
+# left verical line provides best fiting model for your data based on cross-fitted modeling
+value3$lambda.min
+# right vertical line is the biggest lambda you can get within the best error - and a bigger lambda has a smaller set of variables
+value3$lambda.1se
+
+coefpath(value3)
+coefplot(value3, sort='magnitude', lambda='lambda.min')
+coefplot(value3, sort='magnitude', lambda='lambda.1se')
+coefplot(value3, sort='magnitude', lambda='lambda.1se', plot=FALSE)
+
+# glmnet, and cv.glmnet are more predictive than standard lm models, while still providing human-interpretable modelling
+# glmnet family is dictated by your y variable type
+
+
+# by default alpha =1, which is lasso; alpha = 0 is ridge regression
+value4 <- cv.glmnet(x=lotsX, y=lotsY, family='gaussian', nfolds=5, alpha=0)
+plot(value4)
+# lasso, by having the discontinuities at 0, this creates value selection
+# ridge never hits 0, so all variables are still selected
+coefpath(value4)
+coefplot(value4, sort='magnitude', lambda='lambda.1se')
+
+value5 <- cv.glmnet(x=lotsX, y=lotsY, family='gaussian', nfolds=5, alpha=0.5)
+coefpath(value5)
+# cross-validation over alpha is manually done
+# it's not automatically done in glmnet (either with caret or modelr)
+
+
+lots_new <- readRDS(here('data/landeranalytics-training/data', 'manhattan_Test.rds'))
+
+lotsX_new <- build.x(valueFormula, data=lots_new, contrasts=FALSE, sparse=TRUE)
+value3Preds <- predict(value3, newx=lotsX_new, s='lambda.1se')
+head(value3Preds)
+
+value3$cvm[17]
+```
+
+## Decision Trees
+
+```{r}
+# decision trees
+# binary splits on factors
+# can be used for classification or regression
+# sum over M discrete regions the average of all regions multiplied by the average of each region
+# recursive partitioning
+# model is learning the buckets from the data automatically, instead of manually creating the buckets
+
+# random forest - taking different random subsets of variables and splits/buckets to find optimizations of prediction
+
+# gradient boosted tree
+# optimize subsequent models to make up for the difference in residuals (well-fit variables are downgraded, poorly-fit are upgraded)
+
+rm(list = ls())
+
+packages <- c('useful', 'coefplot', 'here', 'xgboost', 'magrittr', 'dygraphs')
+purrr::walk(packages, library, character.only=TRUE)
+
+# from dataset 80/10/10 or 70/20/10 for train/validate/test depending on dataset size
+manTrain <- readRDS(here('data/landeranalytics-training/data', 'manhattan_Train.rds'))
+manVal <- readRDS(here('data/landeranalytics-training/data', 'manhattan_Validate.rds'))
+manTest <- readRDS(here('data/landeranalytics-training/data', 'manhattan_Test.rds'))
+
+# changed from earlier session for outcome variable to ask is it a historic district
+# reminder that you can ask different questions of the same data
+histFormula <- HistoricDistrict ~ FireService + ZoneDist1 + ZoneDist2 + Class + LandUse + OwnerType + LotArea + BldgArea + 
+ComArea + ResArea + OfficeArea + RetailArea + GarageArea + FactryArea + NumBldgs + NumFloors + UnitsRes + 
+    UnitsTotal + LotFront + LotDepth + BldgFront + BldgDepth + LotType + Landmark + BuiltFAR + Built + TotalValue - 1
+
+# build training, validation, and test matrices
+manX_Train <- build.x(histFormula, data=manTrain, contrasts=FALSE, sparse=TRUE)
+manY_Train <- build.y(histFormula, data=manTrain) %>% as.integer() - 1
+manX_Val <- build.x(histFormula, data=manVal, contrast=FALSE, sparse=TRUE)
+manY_Val <- build.y(histFormula, data=manVal) %>% as.integer() - 1
+manX_Test <- build.x(histFormula, data=manTest, contrast=FALSE, sparse=TRUE)
+manY_Test <- build.y(histFormula, data=manTest) %>% as.integer() - 1
+
+# creates special object that stores both x matrix and y vector
+xgTrain <- xgb.DMatrix(data=manX_Train, label=manY_Train)
+xgVal <- xgb.DMatrix(data=manX_Val, label=manY_Val)
+
+
+xg1 <- xgb.train(data=xgTrain, objective='binary:logistic', booster='gbtree', eval_metric='logloss', nrounds=1)
+
+# added watchlist to get logloss value
+xg2 <- xgb.train(data=xgTrain, objective='binary:logistic', booster='gbtree', eval_metric='logloss', nrounds=1, watchlist=list(train=xgTrain))
+xg2$evaluation_log
+
+xg3 <- xgb.train(data=xgTrain, objective='binary:logistic', booster='gbtree', eval_metric='logloss', 
+                 nrounds=100, print_every_n=1, watchlist=list(train=xgTrain))
+
+xg4 <- xgb.train(data=xgTrain, objective='binary:logistic', booster='gbtree', eval_metric='logloss', 
+                 nrounds=300, print_every_n=1, watchlist=list(train=xgTrain))
+
+# check for overfitting 
+xg5 <- xgb.train(data=xgTrain, objective='binary:logistic', booster='gbtree', eval_metric='logloss', 
+                 nrounds=300, print_every_n=1, watchlist=list(train=xgTrain, validate=xgVal)
+                 )
+
+dygraph(xg5$evaluation_log)
+
+xg6 <- xgb.train(data=xgTrain, objective='binary:logistic', booster='gbtree', eval_metric='logloss', 
+                 nrounds=1000, print_every_n=10, watchlist=list(train=xgTrain, validate=xgVal)
+                 )
+dygraph(xg6$evaluation_log)
+
+# stop earlier than nrounds if the model isn't improving against validation data
+xg7 <- xgb.train(data=xgTrain, objective='binary:logistic', booster='gbtree', eval_metric='logloss', 
+                 nrounds=1000, print_every_n=10, watchlist=list(train=xgTrain, validate=xgVal),
+                 early_stopping_rounds=70
+                 )
+dygraph(xg7$evaluation_log)
+
+# start a new model at a previous stopping point of a previous model
+xg8 <- xgb.train(data=xgTrain, objective='binary:logistic', booster='gbtree', eval_metric='logloss', 
+                 nrounds=2000, print_every_n=10, watchlist=list(train=xgTrain, validate=xgVal),
+                 early_stopping_rounds=70, xgb_model=xg3
+                 )
+
+
+# needs 'DiagrammeR' package, which fails to install
+xgb.plot.multi.trees(xg7, feature_names=colnames(manX_Train))
+
+# shows variables that have a lot of impact on tree splits
+xgb.plot.importance(xgb.importance(xg7, feature_names=colnames(manX_Train)))
+xgb.importance(xg7, feature_names=colnames(manX_Train)) %>% View
+
+
+# can run gradient boosting on any supervised learning model, like linear
+xg9 <- xgb.train(data=xgTrain, objective='binary:logistic', booster='gblinear', eval_metric='logloss', 
+                 nrounds=1000, print_every_n=10, watchlist=list(train=xgTrain, validate=xgVal),
+                 early_stopping_rounds=70
+                 )
+coefplot(xg9, sort='magnitude')
+
+# xgboost can do penalized regressions 
+xg10 <- xgb.train(data=xgTrain, objective='binary:logistic', booster='gblinear', eval_metric='logloss', 
+                 nrounds=1000, print_every_n=10, watchlist=list(train=xgTrain, validate=xgVal),
+                 early_stopping_rounds=70, alpha=100000, lambda=250
+                 )
+coefplot(xg10, sort='magnitude')
+dygraph(xg10$evaluation_log)
+# xgboost does better with a tree model than the linear here, because likely the data does not have anything close to a linear relationship
+
+
+
+# we want weak learners, so trees don't overfit too fast, by setting max depth of number of splits in each iteration
+xg11 <- xgb.train(data=xgTrain, objective='binary:logistic', booster='gbtree', eval_metric='logloss', 
+                 nrounds=1000, print_every_n=10, watchlist=list(train=xgTrain, validate=xgVal),
+                 early_stopping_rounds=70, max_depth=3
+                 )
+
+# change the learning rate - the depth of each step as it moves over or under to get down gradient descent towards optimization
+xg12 <- xgb.train(data=xgTrain, objective='binary:logistic', booster='gbtree', eval_metric='logloss', 
+                 nrounds=2500, print_every_n=20, watchlist=list(train=xgTrain, validate=xgVal),
+                 early_stopping_rounds=70, max_depth=3, eta=0.1
+                 )
+# there are seven different hyperparameters in xgb.train (different tuning knobs that make the model work better or worse)
+# best to make a random search of a sampling of values across the range of each hyperparam, running each of those combinations
+# caret can be used to handle that coordination around executing xgboost
+
+
+# experimental feature to do random forest in xgboost
+xg13 <- xgb.train(data=xgTrain, objective='binary:logistic', eval_metric='logloss', booster='gbtree',
+                  watchlist=list(train=xgTrain, validate=xgVal), early_stopping_rounds=20, subsample=0.5,
+                  nrounds=100, print_every_n=1
+                  )
+
+xg14 <- xgb.train(data=xgTrain, objective='binary:logistic', eval_metric='logloss', booster='gbtree',
+                  watchlist=list(train=xgTrain, validate=xgVal), early_stopping_rounds=20, subsample=0.5,
+                  nrounds=100, print_every_n=1, col_subsample=0.5
+                  )
+
+xg15 <- xgb.train(data=xgTrain, objective='binary:logistic', eval_metric='logloss', booster='gbtree',
+                  watchlist=list(train=xgTrain, validate=xgVal), early_stopping_rounds=20, subsample=0.5,
+                  nrounds=50, print_every_n=1, col_subsample=0.5, num_parallel_tree=20
+                  )
+
+
+# run in parallel on multiple cores
+xg16 <- xgb.train(data=xgTrain, objective='binary:logistic', eval_metric='logloss', booster='gbtree',
+                  watchlist=list(train=xgTrain, validate=xgVal), early_stopping_rounds=20, subsample=0.5,
+                  nrounds=50, print_every_n=1, col_subsample=0.5, num_parallel_tree=20, nthread=4
+                  )
+```
