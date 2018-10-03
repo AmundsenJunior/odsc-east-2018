@@ -37,17 +37,7 @@ Dr. Jared Lander
 
 ## Data Prep
 
-```
-$ cd ~/dev/r
-$ mkdir odsc-2018; cd odsc-2018
-$ git clone git@github.com:jaredlander/learningr.git
-```
-
-Download training data ZIP from https://data.world/landeranalytics/training:   
-```
-$ mv ~/Downloads/landeranalytics-training.zip ~/dev/r/odsc-2018
-$ unzip landeranalytics-training.zip
-```
+### Download training data 
 
 ```{r download-data}
 root <- rprojroot::find_rstudio_root_file()
@@ -72,28 +62,20 @@ download.file(
     mode='wb')
 ```
 
-Install tidyverse dependencies:  
+### Install tidyverse dependencies
+
 [Dependencies note for Ubuntu users](https://stackoverflow.com/questions/45719942/how-to-install-tidyverse-on-ubuntu-16-04-and-17-04?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)  
 ```
 $ sudo apt install -y r-cran-curl r-cran-openssl r-cran-xml2
 ```
 
-Install R packages  
+### Install R packages  
+
 ```{r install-packages}
-packages <- c('caret', 'coefplot','DBI', 'dbplyr', 'doParallel', 'foreach', 
-              'ggthemes', 'glmnet', 'jsonlite', 'recipes', 
-              'rprojroot', 'rvest', 'tidyverse', 'useful', 'usethis',
-              'UsingR', 'xgboost', 'XML', 'xml2')
+packages <- c('caret', 'coefplot', 'ggthemes', 'glmnet', 'here', 'recipes', 
+              'rprojroot', 'rvest', 'tidyverse', 'useful', 'usethis', 'xgboost')
 install.packages(packages)
 ```
-
-Move data.world files into `learningr/data` directory:    
-```
-$ mv ~/dev/r/odsc-2018/landeranalytics-training ~/dev/r/odsc-2018/learningr/data
-```
-
-Open the LearningR RStudio Project:  
-`RStudio > Files > /home/srussell/dev/r/odsc-2018/learningr/LearningR.Rproj`
 
 ## Formal Interface
 
@@ -135,7 +117,7 @@ boros <- tibble::tribble(
 boros
 ```
 
-The `useful` library provides some Jared Lander helpers:  
+The [`useful` library](https://github.com/jaredlander/useful) provides some Jared Lander helpers:  
 ```{r load-useful}
 library(useful)
 ```
@@ -157,10 +139,13 @@ build.x( ~ Pop + Size, boros)
 #### Linear Model in matrix form:  
 \[
 Y\begin{bmatrix}y_1 \\ \vdots \\ y_i \end{bmatrix} 
-= X\begin{bmatrix}x_{11} & \cdots & x_{1j}\\ \vdots & \ddots & \vdots \\ x_{i1} & \cdots & x_{ij}\end{bmatrix} \beta\begin{bmatrix}b_1 \\ \vdots \\ b_i\end{bmatrix} + \epsilon\begin{bmatrix}e_1 \\ \vdots \\ e_i\end{bmatrix}
+= X\begin{bmatrix}x_{11} & \cdots & x_{1j}\\ \vdots & \ddots & \vdots \\ x_{i1} & \cdots & x_{ij}\end{bmatrix} 
+\beta\begin{bmatrix}b_1 \\ \vdots \\ b_i\end{bmatrix}
++ \epsilon\begin{bmatrix}e_1 \\ \vdots \\ e_i\end{bmatrix}
 \]
 
-This represents a column of responses ($Y$) equal to a 2-d matrix of variables-observations ($X$) multiplied by a column of their coefficients ($/beta$) plus the errors column ($/epsilon$).  
+This represents a column of responses ($Y$) equal to a 2-d matrix of variables-observations ($X$)
+multiplied by a column of their coefficients ($\beta$) plus the errors column ($\epsilon$).  
 **This is what happens under the hood of `lm` and `glm`.**  
 
 #### Interaction terms and the multiplicative effect
@@ -191,7 +176,8 @@ build.x( ~ Pop - 1, boros)
 ```
 
 #### Handling categorical factors
-How do we model the categorical borough name `Boro`? Usually, a factor variable or dummy variable is used.
+How do we model the categorical borough name `Boro`?
+Usually, a factor variable or dummy variable is used.
 But, in machine learning, we may not want to imply ordinality.
 For counter-example, in education, "some high school, high school grad...." could work ordinally.
 Instead, we'll use a boolean with each category as a column:  
@@ -200,8 +186,8 @@ build.x( ~ Boro, boros)
 ```
 
 This leaves out `BoroBronx`, by default the first category alphabetically.
-In matrix algebra, can't allow for collinearity where every column adds up to 1. 
-However, collinearity doesn't matter as much in machine learning.
+In matrix algebra, can't allow for collinearity where every column adds up to 1.
+However, collinearity doesn't matter as much in machine learning.  
 So, we include the Bronx column:  
 ```{r create-model-boros-bronx}
 build.x( ~ Boro, boros, contrasts=FALSE)
@@ -216,9 +202,9 @@ build.x( ~ Pop * Boro, boros)
 ```
 
 #### Sparse Matrices
-Optimal in ML to create a sparse matrix. 
+It is optimal in ML to create a sparse matrix.
 Do you need to store all those zeroes, where an integer is the same size in memory regardless of value?
-Sparse matrices save storage space and compute time.
+Sparse matrices save storage space and compute time.  
 To create a sparse matrix, build the model specifying so:  
 ```{r create-sparse-matrix-model}
 build.x( ~ Pop * Boro, boros, sparse=TRUE)
@@ -234,7 +220,7 @@ build.x( ~ Pop * Boro, boros, sparse=TRUE)
 - Generalization Phase: test data > prediction, test responses > evaluation
 
 ### Curse of dimensionality 
-- As dimensions are added (e.g. cube into n-dim hypercube, and beyond), the solution space gets exponentially harder to model.
+- As dimensions are added (e.g. cube transforming into an n-dimensional hypercube), the solution space gets exponentially harder to model.
 - As variables are added to break up observations, the number of observations in each combination of variables gets smaller.
 - As more columns are added, modeling requires more data.
 
@@ -245,143 +231,180 @@ build.x( ~ Pop * Boro, boros, sparse=TRUE)
     - The math applies a _penalty term_ that shrinks some of the variable coefficients to zero
     - The penalty term is a combination of the ridge and lasso regressions
 
+### Libraries and Data Prep
 
-Load multiple packages as libraries into project with `purrr::walk` function:  
+Load multiple packages as libraries into project with `purrr::walk` function (used to generally apply a function across a vector).  
 ```{r load-glm-libs}
 packages <- c('here', 'coefplot', 'useful', 'glmnet', 'ggplot2', 'magrittr')
 purrr::walk(packages, library, character.only=TRUE)
 ```
 
-
-```{r}
+Load the Manhattan Lots training dataset from an RDS file.  
+```{r load-lots-data}
 dir('data/landeranalytics-training/data')
-
-# load lots data from csv
 lots <- readRDS(here('data/landeranalytics-training/data', 'manhattan_Train.rds'))
+```
 
-# tabular rep of data
+View a tabular representation of `lots` data.  
+```{r tabular-lots}
 View(lots)
 names(lots)
+```
 
-# linear model formula (don't include the intercept)
-valueFormula <- TotalValue ~ FireService + ZoneDist1 + ZoneDist2 + Class + LandUse + OwnerType + LotArea + BldgArea + 
-    ComArea + ResArea + OfficeArea + RetailArea + GarageArea + FactryArea + NumBldgs + NumFloors + UnitsRes + 
-    UnitsTotal + LotFront + LotDepth + BldgFront + BldgDepth + LotType + Landmark + BuiltFAR + Built + HistoricDistrict - 1
-
+### Initial Linear Model with `lm()`
+Create the linear model formula (in this case not including the intercept).  
+```{r lots-linear-model-formula}
+valueFormula <- TotalValue ~ FireService + ZoneDist1 + ZoneDist2 + Class +
+    LandUse + OwnerType + LotArea + BldgArea + ComArea + ResArea + OfficeArea +
+    RetailArea + GarageArea + FactryArea + NumBldgs + NumFloors + UnitsRes + 
+    UnitsTotal + LotFront + LotDepth + BldgFront + BldgDepth + LotType +
+    Landmark + BuiltFAR + Built + HistoricDistrict - 1
 class(valueFormula)
+```
 
-#initial linear model
-value1 <- lm(valueFormula, data=lots)
+Generate an initial linear model from `lots` data, using the `lm` function.  
+```{r first-linear-model}
+model1 <- lm(valueFormula, data=lots)
+summary(model1)
+```
 
-# coefficient plot of all coefficients
-# value estimate is the dot for each coefficient, with the wings the confidence intervals
-coefplot(value1, sort='magnitude')
-?coefplot
-summary(value1)
+The coefficient plot for this model shows the value estimates (dots) and confidence intervals (wings) for each coefficient.  
+```{r first-coef-plot}
+coefplot(model1, sort='magnitude')
+```
 
+### Generalized Linear Models with `glmnet`
 
-# glmnet requires matrices
-# easiest to create once, then apply multiple models against
+`glmnet` requires matrices for running its regression analysis. We are going to 
+execute multiple regression against this dataset, so will create the sparse
+matrices once and use repeatedly.
 
+First, we'll create the predictors matrix, `lotsX`, enabling creation of a sparse
+matrix and disabling removal of factor base levels.
+```{r create-lotsx-matrix}
 lotsX <- build.x(valueFormula, data=lots, contrasts=FALSE, sparse=TRUE)
 dim(lotsX)
+head(lotsX)
 class(lotsX)
+```
 
+And a matrix as well for the response data:
+```{r create-lotsy-matrix}
 lotsY <- build.y(valueFormula, data=lots)
 head(lotsY)
 class(lotsY)
+```
 
-value2 <- glmnet(x=lotsX, y=lotsY, family='gaussian')
-# glmnet is fitting a regression for each value of lambda (fit 100 models sequentially)
-# it's actually faster than lm fitting one model
-# glmnet automatically scales all variables, calculates coefficients, then unscales the coefficients as output
+#### Exploring `glmnet`
+`glmnet` is fitting a regression for each value of lambda (i.e., it fits 100
+models sequentially). It's actually faster than `lm` fitting one model.
+`glmnet` automatically scales all variables, calculates coefficients, then
+unscales the coefficients as its output.
+```{r first-glm}
+model2 <- glmnet(x=lotsX, y=lotsY, family='gaussian')
+plot(model2)
+```
 
-value2$lambda
-# bigger the lambda the more shrinkage, the smaller lambda, less shrinkage
+Reviewing the output, the bigger the lambda the more shrinkage in the model; the
+smaller the lambda, less shrinkage is seen.
+```{r first-glm-lambda}
+model2$lambda
+```
 
-plot(value2)
+hover over
+x axis is log lambda - little to a lot of penalty/shrinkage
+y axis shows values of coefficients
+with each line representing the coefficient for a different variable, including one line per category in categorical variables
+```{r first-glm-coef-path}
+coefpath(model2)
+coef(model2)
+```
 
-coefpath(value2)
-# hover over
-# x axis is log lambda - little to a lot of penalty/shrinkage
-# y axis shows values of coefficients
-# with each line representing the coefficient for a different variable, including one line per category in categorical variables
+```{r first-glm-lambdas}
+range(model2$lambda)
+```
 
-coef(value2)
+when choosing a small lambda, not a lot of penalty, so most variables still present
+large lambda - most vars removed
+```{r first-glm-diff-lambdas}
+coefplot(model2, sort='magnitude', lambda=500)
+coefplot(model2, sort='magnitude', lambda=2000000)
+coefplot(model2, sort='magnitude', lambda=100000)
+```
 
-range(value2$lambda)
+what is the right lambda is the wrong question
+we can answer what the optimal lambda for the model to fit with the data
 
-# when choosing a small lambda, not a lot of penalty, so most variables still present
-# large lambda - most vars removed
-coefplot(value2, sort='magnitude', lambda=500)
-coefplot(value2, sort='magnitude', lambda=2000000)
-coefplot(value2, sort='magnitude', lambda=100000)
+#### Cross-Validation
+split dataset into k discrete sets
+check model against each subset
 
-# what is the right lambda is the wrong question
-# we can answer what the optimal lambda for the model to fit with the data
+cross validation glmnet gives us the mean squared errors
+top of x axis is number of variables in your model for a specific log(lambda)
+left verical line provides best fiting model for your data based on cross-fitted modeling
+```{r cross-validation-model}
+model3 <- cv.glmnet(x=lotsX, y=lotsY, family='gaussian', nfolds=5)
+plot(model3)
+```
 
-# cross-validation
-# split dataset into k discrete sets
-# check model against each subset
+right vertical line is the biggest lambda you can get within the best error - and a bigger lambda has a smaller set of variables
+```{r cross-validation-error}
+model3$lambda.min
+model3$lambda.1se
+```
 
-value3 <- cv.glmnet(x=lotsX, y=lotsY, family='gaussian', nfolds=5)
-plot(value3)
-# cross validation glmnet gives us the mean squared errors
-# top of x axis is number of variables in your model for a specific log(lambda)
-# left verical line provides best fiting model for your data based on cross-fitted modeling
-value3$lambda.min
-# right vertical line is the biggest lambda you can get within the best error - and a bigger lambda has a smaller set of variables
-value3$lambda.1se
+glmnet, and cv.glmnet are more predictive than standard lm models, while still providing human-interpretable modelling
+glmnet family is dictated by your y variable type
+```{r cross-validation-coef-plots}
+coefpath(model3)
+coefplot(model3, sort='magnitude', lambda='lambda.min')
+coefplot(model3, sort='magnitude', lambda='lambda.1se')
+coefplot(model3, sort='magnitude', lambda='lambda.1se', plot=FALSE)
+```
 
-coefpath(value3)
-coefplot(value3, sort='magnitude', lambda='lambda.min')
-coefplot(value3, sort='magnitude', lambda='lambda.1se')
-coefplot(value3, sort='magnitude', lambda='lambda.1se', plot=FALSE)
+#### Ridge Regression
 
-# glmnet, and cv.glmnet are more predictive than standard lm models, while still providing human-interpretable modelling
-# glmnet family is dictated by your y variable type
-
-
-# by default alpha =1, which is lasso; alpha = 0 is ridge regression
-value4 <- cv.glmnet(x=lotsX, y=lotsY, family='gaussian', nfolds=5, alpha=0)
-plot(value4)
+by default alpha =1, which is lasso; alpha = 0 is ridge regression
+```{r glm-ridge-regression}
+model4 <- cv.glmnet(x=lotsX, y=lotsY, family='gaussian', nfolds=5, alpha=0)
+plot(model4)
 # lasso, by having the discontinuities at 0, this creates value selection
 # ridge never hits 0, so all variables are still selected
-coefpath(value4)
-coefplot(value4, sort='magnitude', lambda='lambda.1se')
+coefpath(model4)
+coefplot(model4, sort='magnitude', lambda='lambda.1se')
+```
 
-value5 <- cv.glmnet(x=lotsX, y=lotsY, family='gaussian', nfolds=5, alpha=0.5)
-coefpath(value5)
+```{r glm-cv-alpha}
+model5 <- cv.glmnet(x=lotsX, y=lotsY, family='gaussian', nfolds=5, alpha=0.5)
+coefpath(model5)
 # cross-validation over alpha is manually done
 # it's not automatically done in glmnet (either with caret or modelr)
+```
 
-
+```{r glm-test-model}
 lots_new <- readRDS(here('data/landeranalytics-training/data', 'manhattan_Test.rds'))
 
 lotsX_new <- build.x(valueFormula, data=lots_new, contrasts=FALSE, sparse=TRUE)
-value3Preds <- predict(value3, newx=lotsX_new, s='lambda.1se')
-head(value3Preds)
+model3Preds <- predict(model3, newx=lotsX_new, s='lambda.1se')
+head(model3Preds)
 
-value3$cvm[17]
+model3$cvm[17]
 ```
 
 ## Decision Trees
 
+binary splits on factors
+can be used for classification or regression
+sum over M discrete regions the average of all regions multiplied by the average of each region
+recursive partitioning
+model is learning the buckets from the data automatically, instead of manually creating the buckets
+
+random forest - taking different random subsets of variables and splits/buckets to find optimizations of prediction
+
+gradient boosted tree
+optimize subsequent models to make up for the difference in residuals (well-fit variables are downgraded, poorly-fit are upgraded)
+
 ```{r}
-# decision trees
-# binary splits on factors
-# can be used for classification or regression
-# sum over M discrete regions the average of all regions multiplied by the average of each region
-# recursive partitioning
-# model is learning the buckets from the data automatically, instead of manually creating the buckets
-
-# random forest - taking different random subsets of variables and splits/buckets to find optimizations of prediction
-
-# gradient boosted tree
-# optimize subsequent models to make up for the difference in residuals (well-fit variables are downgraded, poorly-fit are upgraded)
-
-rm(list = ls())
-
 packages <- c('useful', 'coefplot', 'here', 'xgboost', 'magrittr', 'dygraphs')
 purrr::walk(packages, library, character.only=TRUE)
 
@@ -393,7 +416,7 @@ manTest <- readRDS(here('data/landeranalytics-training/data', 'manhattan_Test.rd
 # changed from earlier session for outcome variable to ask is it a historic district
 # reminder that you can ask different questions of the same data
 histFormula <- HistoricDistrict ~ FireService + ZoneDist1 + ZoneDist2 + Class + LandUse + OwnerType + LotArea + BldgArea + 
-ComArea + ResArea + OfficeArea + RetailArea + GarageArea + FactryArea + NumBldgs + NumFloors + UnitsRes + 
+    ComArea + ResArea + OfficeArea + RetailArea + GarageArea + FactryArea + NumBldgs + NumFloors + UnitsRes + 
     UnitsTotal + LotFront + LotDepth + BldgFront + BldgDepth + LotType + Landmark + BuiltFAR + Built + TotalValue - 1
 
 # build training, validation, and test matrices

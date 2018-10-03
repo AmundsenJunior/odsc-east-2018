@@ -12,7 +12,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
+knitr::opts_chunk$set(cache = TRUE, echo = TRUE, eval = FALSE)
 ```
 
 ## Overview
@@ -117,7 +117,7 @@ _"A group of individual data scientists is not necessarily a collaborative team 
 - From `*.R` files function comments based on `roxygen` skeleton
 - Into the `man/` directory
 
-    ```{r eval=FALSE}
+    ```{r create-docs}
     devtools::document() 
     ```
 
@@ -125,7 +125,7 @@ _"A group of individual data scientists is not necessarily a collaborative team 
 - Nice to have long-form documentation 
 - RMarkdown file into the `vignettes/` directory
 
-    ```{r eval=FALSE}
+    ```{r init-vignettes}
     devtools::use_vignette("GettingStarted") 
     ```
 
@@ -139,7 +139,7 @@ _"A group of individual data scientists is not necessarily a collaborative team 
 #### Build Package
 - Two steps to build the package and build vignettes separately.
 
-    ```{r eval=FALSE}
+    ```{r build-pkg}
     devtools::build() # creates a tarball file
     devtools::build_vignettes()
     ```
@@ -147,14 +147,14 @@ _"A group of individual data scientists is not necessarily a collaborative team 
 #### Install Package
 - This installs the package into local RStudio environment, making it accessible for loading into other projects.
 
-    ```{r eval=FALSE}
+    ```{r install-pkg}
     devtools::install()
     ```
 
 #### Build the doc site with pkgdown
 - Generate a static HTML site of package documentation.
 
-    ```{r eval=FALSE}
+    ```{r build-docs-site}
     pkgdown::build_site()
     ```
 

@@ -12,7 +12,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache = TRUE, echo = TRUE)
+knitr::opts_chunk$set(cache = TRUE, echo = TRUE, eval = FALSE)
 ```
 
 ## Overview
@@ -34,29 +34,51 @@ Dr. Douglas Ashton
 
 ## Prerequisites
 
-### Installing Keras requires Python dependencies:
-```
-$ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-$ sudo apt install -y python-pip python-virtualenv
-```
-
-### Installing Keras and package dependencies
-```{r eval=FALSE}
-packages <- c('caret', 'coefplot','DBI', 'dbplyr', 'doParallel', 'foreach', 
-              'ggthemes', 'glmnet', 'here', 'jsonlite', 'leaflet', 'odbc', 
-              'recipes', 'rmarkdown', 'rprojroot', 'RSQLite', 'rvest', 
-              'tidyverse', 'threejs', 'usethis', 'UsingR', 'xgboost', 'XML', 
-              'xml2')
-install.packages(packages)
+### Installing Keras and Package Dependencies
+```{r install-deps}
+install.packages('caret')
 install.packages('tidyverse', dependencies=TRUE)
 install.packages('keras')
+
+library(caret)
+library(tidyverse)
 
 library(keras)
 install_keras() # install keras and tensorflow dependencies
 is_keras_available()
 ```
 
-## What is deep learning
+### Download Data
+```{r download-data}
+root <- rprojroot::find_rstudio_root_file()
+dataDir <- file.path(root, 'data')
+
+# xIris.rds
+download.file(
+    'https://github.com/MangoTheCat/keras-workshop/tree/master/data/xIris.rds',
+    destfile=file.path(dataDir, 'xIris.rds'),
+    mode='wb')
+
+# yIris.rds
+download.file(
+    'https://github.com/MangoTheCat/keras-workshop/tree/master/data/yIris.rds',
+    destfile=file.path(dataDir, 'yIris.rds'),
+    mode='wb')
+
+# xWalk.rds
+download.file(
+    'https://github.com/MangoTheCat/keras-workshop/tree/master/data/xWalk.rds',
+    destfile=file.path(dataDir, 'xWalk.rds'),
+    mode='wb')
+
+# yWalk.rds
+download.file(
+    'https://github.com/MangoTheCat/keras-workshop/tree/master/data/yWalk.rds',
+    destfile=file.path(dataDir, 'yWalk.rds'),
+    mode='wb')
+```
+
+## What is Deep Learning
 
 - Feataures (inputs) - try to go wide
 - Transformed features - turn inputs into something more representative and useful to predictive modeling
@@ -89,14 +111,31 @@ is_keras_available()
     - Petal length
 - One target: species (setosa, versicolo, etc.)
 
-```{r eval=FALSE}
-library(keras)
-library(caret)
-library(tidyverse)
+### Data Preparation
 
-## Sample IDs for training set
+Building a neural network model requires _training_ and _test_ data sets.
+Often, and preferable, the training data is significantly larger than the test data,
+as NNs benefit from larger training sets making "better" (data quality aside) models.
+
+In this first model, against the `iris` dataset, we'll use 80% for training, with the
+remaining 20% as test data. The prepared dataset is available in the above-downloaded
+`xIris.rds` and `yIris.rds` files and can beloaded directly via
+
+```{r prepared-data}
+xIris <- readRDS("data/xIris.rds")
+yIris <- readRDS("data/yIris.rds")
+```
+
+The below steps show the preparations done on that data.
+
+First, use the `caret` package to partition the data, by ID, into training and test sets.
+```{r partition-data}
 trainID <- createDataPartition(iris$Species, p = 0.8) 
+```
 
+Use the `trainID` partition list to slice `iris` data into training and test datasets.
+Thesee two sets are then combined into a `fullData` list.  
+```{r }
 trainingData <- iris %>%
   slice(trainID$Resample1)
 
@@ -105,66 +144,75 @@ testData <- iris %>%
 
 fullData <- list(train = trainingData, 
                  test = testData)
+```
 
-## Create dummy variables
+The `iris` dataset is comprised of several numerical variables that, for each data point,
+are related to on or another categorical `Species` value. To build a model that predicts
+`Species` based on the _sepal_ and _petal_ _lengths_ and _widths_, a set of boolen
+dummy variables have to be made for each of the categorical values in `Species`.
+This process uses the `caret::dummyVars()` and `purrr::map()` functions.  
+```{r dummy-vars}
 dummy <- dummyVars(~ Species, data = iris)
-
 irisDummy <- map(fullData, predict, object = dummy)
-
 head(irisDummy$train)
+```
 
-## Scale the data (split training and test)
+Further cleanup of the dataset 
+1. removes the non-numeric `Species` response variable,
+1. scales and centers the `test` and `training` data, and
+1. replaces all "NA" values with "0".
+
+```{r data-cleanup}
 numericIris <- map(fullData, select_if, is.numeric)
-
 scaledIris <- map(numericIris, scale)
-
-head(scaledIris$train)
-
 map(scaledIris, replace_na, replace = 0)
+head(scaledIris$train)
+```
 
-## Create x and y matrix
+We complete data processing by separating our combined `train` and `test` data
+into separate predictor (`xIris`) and response (`yIris`) matrices.  
+```{r create-matrices}
 xIris <- map(scaledIris, as.matrix)
 yIris <- map(irisDummy, as.matrix)
+```
 
+### Build and Train the Model
 
-# If you're lost just do
-
-xIris <- readRDS("/data/xIris.rds")
-yIris <- readRDS("/data/yIris.rds")
-
-############# Building models
-
+Build the model.  
+```{r build-model}
 model <- keras_model_sequential()
+```
 
-## Add layers
-
+Add layers to the neural network.  
+```{r add-layers}
 model %>%
   layer_dense(units = 10, input_shape = 4) %>%
   layer_dense(units = 3, activation = 'softmax')
+```
 
-
-## Define compilation
-
+Compile the model, which 
+```{r compile-model}
 model %>% compile(
   optimizer = 'rmsprop',
   loss = 'categorical_crossentropy',
   metrics = 'accuracy'
 )
+```
 
-## Train the model
-
+Train the model
+```{r train-model}
 history <- model %>% fit(xIris$train, 
                      yIris$train, 
                      epochs = 100, 
                      validation_data = list(xIris$test, yIris$test))
-
 summary(model)
-
 plot(history)
+```
 
 
-### Evaluate and predict model
+### Evaluate the Model
 
+```{r}
 model %>% 
   evaluate(xIris$test, yIris$test)
 
@@ -174,11 +222,11 @@ model %>%
 
 model %>%
   predict_classes(xIris$test) 
+```
 
 
-
-############# Controlling Layers
-
+Controlling Layers
+```{r}
 model <- keras_model_sequential()
 
 model %>%
@@ -196,7 +244,6 @@ model %>% fit(xIris$train,
               yIris$train, 
               epochs = 100, 
               validation_data = list(xIris$test, yIris$test))
-
 ```
 
 ## TensorFlow, Keras, and R
@@ -208,32 +255,44 @@ __Reference__: _Deep Learning with R_, by Francois Challet
 
 #### R and TensorFlow
 - [TensorFlow docs from RStudio](http://tensorflow.rstudio.com)
-- Use of the `reticulate` package
+- Use of the `reticulate` package to wrap the required Python packages
 - Not much overhead to bring up Python when installing TF
 
 #### Keras
 - [Keras docs from RStudio](http://keras.rstudio.com)
-- Higher leval on top of TF, specifically for neural networks
+- Higher level on top of TF, specifically for neural networks
 
 ## How it all fits together
 - We will write against Keras in R
 - Keras will turn that into neural network math
 - TensorFlow receives math from Keras to compute
 
-```{r eval=FALSE}
-library(keras)
-# Use this to limit cpu
+### Preparation
+
+To execute this model locally, we'll limit computational power by providing a
+seeded session for TensorFlow, where the following call disables both GPU
+execution and parallelism on the CPU.  
+```{r seed-tf-session}
 use_session_with_seed(1234)
+```
 
+Next, load the test data downloaded above, which has already been prepped with
+`train` and `test` subsets of the data.  
+```{r load-walk-data}
+xWalk <- readRDS("data/xWalk.rds")
+yWalk <- readRDS("data/yWalk.rds")
+```
 
-# Load the test data
-xWalk <- readRDS("/data/xWalk.rds")
-yWalk <- readRDS("/data/yWalk.rds")
+### Build a Convolutional Neural Network (CNN) Model
 
-# Make an empty model
+Make an empty sequential model, where layers feed directly into subsequent layers.  
+```{r start-empty-seq-model}
 model <- keras_model_sequential()
+```
 
-# Build our CNN
+We'll next build our CNN, by adding layer definitions onto the model scaffolding.
+1. 
+```{r build-cnn}
 model %>%
 	  layer_conv_1d(filters = 40, kernel_size = 30, strides = 2,
 			                activation = "relu", input_shape = c(260, 3)) %>%
@@ -243,25 +302,28 @@ model %>%
         layer_flatten() %>%
 	  layer_dense(units = 100, activation = "sigmoid") %>%
 	    layer_dense(units = 15, activation = "softmax")
+model
+```
 
-    model
+Compile
+```{r compile-cnn}
+model %>%
+	  compile(loss = "categorical_crossentropy",
+		    optimizer = "adam",
+				metrics = c("accuracy"))
+```
 
+Run
+```{r run-cnn}
+history <- model %>% fit(xWalk$train, yWalk$train,
+		epochs = 15, 
+		batch_size = 128, 
+		validation_split = 0.3,
+		verbose = 1)
+```
 
-
-    # Compile
-    model %>%
-	      compile(loss = "categorical_crossentropy",
-		                optimizer = "adam",
-				          metrics = c("accuracy"))
-
-    # Run
-    history <- model %>% fit(xWalk$train, yWalk$train,
-			                              epochs = 15, 
-						                               batch_size = 128, 
-						                               validation_split = 0.3,
-									                                verbose = 1)
-
-    # Evaluate
-    model %>% 
-	      evaluate(xWalk$test, yWalk$test, verbose = 0)
+Evaluate
+```{r eval-cnn}
+model %>% 
+	  evaluate(xWalk$test, yWalk$test, verbose = 0)
 ```
